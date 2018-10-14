@@ -1,0 +1,8 @@
+---
+version: "2.1"
+services:
+  app:
+    build: .
+    volumes:
+    - .:/app:delegated
+    - ~/.composer:/root/.composer:delegated

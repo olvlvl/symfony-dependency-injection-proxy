@@ -1,0 +1,28 @@
+{
+    "name": "olvlvl/symfony-dependency-injection-proxy",
+    "description": "Generate super tiny proxies for Symfony's dependency injection",
+    "keywords": [ "symfony", "dependency", "injection", "proxy" ],
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Olivier Laviale",
+            "email": "olivier.laviale@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*",
+        "symfony/dependency-injection": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "olvlvl\\SymfonyDependencyInjectionProxy\\": "lib"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\olvlvl\\SymfonyDependencyInjectionProxy\\": "tests"
+        }
+    }
+}
