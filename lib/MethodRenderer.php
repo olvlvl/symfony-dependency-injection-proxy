@@ -13,9 +13,9 @@ namespace olvlvl\SymfonyDependencyInjectionProxy;
 
 use ReflectionMethod;
 use ReflectionParameter;
+use ReflectionType;
 use function implode;
 use function json_encode;
-use ReflectionType;
 
 class MethodRenderer
 {

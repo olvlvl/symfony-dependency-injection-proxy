@@ -12,13 +12,11 @@
 namespace olvlvl\SymfonyDependencyInjectionProxy;
 
 use InvalidArgumentException;
-use function method_exists;
-use function sprintf;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\DumperInterface;
 use function class_exists;
 use function ltrim;
+use function sprintf;
 
 final class ProxyDumper implements DumperInterface
 {
@@ -83,7 +81,7 @@ PHP;
      */
     public function getProxyCode(Definition $definition)
     {
-        return '// nothing to do';
+        return '';
     }
 
     /**
@@ -91,7 +89,19 @@ PHP;
      */
     private function findInterface(Definition $definition): string
     {
-        return $this->interfaceResolver->resolveInterface($definition->getClass());
+        return $this->resolveInterfaceFromTags($definition)
+            ?: $this->interfaceResolver->resolveInterface($definition->getClass());
+    }
+
+    private function resolveInterfaceFromTags(Definition $definition): ?string
+    {
+        $proxy = $definition->getTag('proxy');
+
+        if (empty($proxy[0]['interface'])) {
+            return null;
+        }
+
+        return $proxy[0]['interface'];
     }
 
     private function renderFactory(string $interface, string $factoryCode): string

@@ -150,7 +150,6 @@ PHP;
 
         $proxyCode = $stu->getProxyCode(new Definition());
 
-        $this->assertNotEmpty($proxyCode);
-        $this->assertGreaterThanOrEqual(2, count(explode(' ', $proxyCode)));
+        $this->assertEmpty($proxyCode);
     }
 }

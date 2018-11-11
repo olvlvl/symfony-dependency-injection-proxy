@@ -13,7 +13,6 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 
 use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
-use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\MapInterfaceResolver;
 use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
 use PHPUnit\Framework\TestCase;
@@ -53,9 +52,7 @@ class IntegrationTest extends TestCase
 
         $dumper = new PhpDumper($builder);
         $dumper->setProxyDumper(new ProxyDumper(
-            new MapInterfaceResolver(new BasicInterfaceResolver(), [
-                Sample2::class => SampleInterface2::class,
-            ]),
+            new BasicInterfaceResolver(),
             new FactoryRenderer(new MethodRenderer)
         ));
 
@@ -103,6 +100,7 @@ class IntegrationTest extends TestCase
                         ->setPublic(true)
                         ->addArgument(uniqid())
                         ->addArgument($value2 = uniqid())
+                        ->addTag('proxy', [ 'interface' => SampleInterface2::class ])
                 ],
                 function (ContainerInterface $container) use ($id, $value2) {
                     /* @var SampleInterface2 $service */

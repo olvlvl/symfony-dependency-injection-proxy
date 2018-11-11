@@ -115,28 +115,21 @@ many. For instance, if a service was an instance of `ArrayObject` the following 
 Don't know which interface to choose from for ArrayObject: IteratorAggregate, Traversable, ArrayAccess, Serializable, Countable.
 ```
 
-We can help by decorating the basic interface resolver with a map, and specify which interface to implement for which
-class:
+We can specify which interface to implement using the `proxy` tag:
 
-```php
-<?php
+```yaml
+ArrayObject:
+  lazy: true
+  tags:
+  - { name: proxy, interface: ArrayAccess }
+```
 
-use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
-use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
-use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\MapInterfaceResolver;
-use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
-use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
-use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+And since `symfony/dependency-injection` v4.2 we can specify the interface to implement using the `lazy` attribute:
 
-/* @var PhpDumper $dumper */
-
-$dumper->setProxyDumper(new ProxyDumper(
-    new MapInterfaceResolver(new BasicInterfaceResolver(), [
-        ArrayObject::class => ArrayAccess::class,
-    ]),
-    new FactoryRenderer(new MethodRenderer)
-));
-``` 
+```yaml
+ArrayObject:
+  lazy: ArrayAccess
+```
 
 
 
