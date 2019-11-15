@@ -39,7 +39,7 @@ class FactoryRendererTest extends TestCase
         });
 
         $stu = new FactoryRenderer($methodRenderer->reveal());
-        $expected = <<<PHP
+        $expected = <<<PHPTPL
             new class(
                 function () {
                     return $factoryCode;
@@ -56,7 +56,7 @@ class FactoryRendererTest extends TestCase
                 codeFor:serialize
                 codeFor:unserialize
             };
-PHP;
+PHPTPL;
         $this->assertEquals($expected, $stu($interface, $factoryCode));
     }
 }

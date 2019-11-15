@@ -37,7 +37,7 @@ class FactoryRenderer
             '($this->service ?: $this->service = ($this->factory)())'
         );
 
-        return <<<PHP
+        return <<<PHPTPL
             new class(
                 function () {
                     return $factoryCode;
@@ -53,7 +53,7 @@ class FactoryRenderer
 
 $methods
             };
-PHP;
+PHPTPL;
     }
 
     /**

@@ -43,123 +43,131 @@ class MethodRendererTest extends TestCase
             return new ReflectionMethod(SampleInterfaceForMethodRenderer72::class, $method);
         };
 
-        $cases = [
+        return [
 
             [
                 $reflectionFor('aStaticMethodWithoutParametersOrReturnType'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public static function aStaticMethodWithoutParametersOrReturnType()
                 {
                     return {$getterCode}->aStaticMethodWithoutParametersOrReturnType();
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithoutParametersOrReturnType'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithoutParametersOrReturnType()
                 {
                     return {$getterCode}->aMethodWithoutParametersOrReturnType();
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithoutParametersButABuiltInReturnType'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithoutParametersButABuiltInReturnType(): array
                 {
                     return {$getterCode}->aMethodWithoutParametersButABuiltInReturnType();
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithoutParametersButABuiltInReturnTypeNullable'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithoutParametersButABuiltInReturnTypeNullable(): ?array
                 {
                     return {$getterCode}->aMethodWithoutParametersButABuiltInReturnTypeNullable();
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithoutParametersButANonBuiltInReturnType'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithoutParametersButANonBuiltInReturnType(): \ArrayAccess
                 {
                     return {$getterCode}->aMethodWithoutParametersButANonBuiltInReturnType();
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithoutParametersButANonBuiltInReturnTypeNullable'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithoutParametersButANonBuiltInReturnTypeNullable(): ?\ArrayAccess
                 {
                     return {$getterCode}->aMethodWithoutParametersButANonBuiltInReturnTypeNullable();
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithParameters1'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithParameters1(\$a, bool \$b, ?int \$c, \$d = null)
                 {
                     return {$getterCode}->aMethodWithParameters1(\$a, \$b, \$c, \$d);
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithParameters2'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithParameters2(\ArrayAccess \$a, ?\ArrayAccess \$b, ?\ArrayAccess \$c = null)
                 {
                     return {$getterCode}->aMethodWithParameters2(\$a, \$b, \$c);
                 }
-PHP
+PHPTPL
             ],
 
             [
                 $reflectionFor('aMethodWithParameters3'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithParameters3(\$a = 123, \$b = "abc", \$c = "aConstantValue")
                 {
                     return {$getterCode}->aMethodWithParameters3(\$a, \$b, \$c);
                 }
-PHP
+PHPTPL
             ],
 
-        ];
-
-        if (PHP_VERSION_ID >= 72000) {
-            $cases[] = [
+            [
 
                 $reflectionFor72('aMethodWithReturnTypeVoid'),
                 $getterCode,
-                <<<PHP
+                <<<PHPTPL
                 public function aMethodWithReturnTypeVoid(\$a): void
                 {
                     {$getterCode}->aMethodWithReturnTypeVoid(\$a);
                 }
-PHP
-            ];
-        }
+PHPTPL
+            ],
 
-        return $cases;
+            [
+
+                $reflectionFor72('aMethodWithReturnTypeObject'),
+                $getterCode,
+                <<<PHPTPL
+                public function aMethodWithReturnTypeObject(\$a): object
+                {
+                    return {$getterCode}->aMethodWithReturnTypeObject(\$a);
+                }
+PHPTPL
+            ],
+
+        ];
     }
 }

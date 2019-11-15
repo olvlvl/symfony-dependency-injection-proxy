@@ -24,12 +24,12 @@ use Psr\Log\LoggerInterface;
 class ExceptionHandler
 {
     private $logger;
-    
+
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
-    
+
     // …
 }
 ```
@@ -143,7 +143,7 @@ ArrayObject:
 
 ## Requirements
 
-The package requires PHP 7.1 or later.
+The package requires PHP 7.2.5 or later.
 
 
 

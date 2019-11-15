@@ -25,12 +25,12 @@ class MethodRenderer
         $call = $this->renderCall($method);
         $mayReturn = ($method->hasReturnType() && $method->getReturnType()->getName() === 'void') ? '' : 'return ';
 
-        return <<<PHP
+        return <<<PHPTPL
                 $signature
                 {
                     {$mayReturn}{$getterCode}->$call;
                 }
-PHP;
+PHPTPL;
     }
 
     private function renderMethodSignature(ReflectionMethod $method): string

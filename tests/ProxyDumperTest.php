@@ -111,13 +111,13 @@ class ProxyDumperTest extends TestCase
             $factoryRenderer->reveal()
         );
 
-        $expected = <<<PHP
+        $expected = <<<PHPTPL
         if (\$lazyLoad) {
             return {$expectedStore}$proxyFactoryCode
         }
 
 
-PHP;
+PHPTPL;
 
         $this->assertEquals($expected, $stu->getProxyFactoryCode($definition, $id, $factoryCode));
     }

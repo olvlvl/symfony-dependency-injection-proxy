@@ -67,13 +67,13 @@ final class ProxyDumper implements DumperInterface
         $interface = $this->findInterface($definition);
         $proxy = ltrim($this->renderFactory($interface, $factoryCode));
 
-        return <<<PHP
+        return <<<PHPTPL
         if (\$lazyLoad) {
             return {$store}$proxy
         }
 
 
-PHP;
+PHPTPL;
     }
 
     /**
