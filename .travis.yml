@@ -9,9 +9,9 @@ cache:
 language: php
 
 php:
-  - 7.1
   - 7.2
   - 7.3
+  - 7.4snapshot
 
 script:
-  - if [[ $TRAVIS_PHP_VERSION == "7.1" ]]; then make test-coveralls; else make test; fi
+  - if [[ $TRAVIS_PHP_VERSION == "7.2" ]]; then make test-coveralls; else make test; fi

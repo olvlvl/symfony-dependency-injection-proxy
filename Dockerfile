@@ -1,4 +1,4 @@
-FROM php:7.1-alpine3.8
+FROM php:7.2-alpine
 
 RUN apk add --no-cache make $PHPIZE_DEPS \
     && pecl install xdebug \
