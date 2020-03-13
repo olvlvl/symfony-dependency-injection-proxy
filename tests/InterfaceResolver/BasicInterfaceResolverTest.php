@@ -14,6 +14,7 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use ArrayIterator;
 use DateTimeImmutable;
 use DateTimeInterface;
+use LogicException;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
 use PHPUnit\Framework\TestCase;
 
@@ -24,25 +25,29 @@ class BasicInterfaceResolverTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \LogicException
-     * @expectedExceptionMessageRegExp /Don't know which interface to choose from for ArrayIterator: Iterator,/
      * @throws \Exception
      */
     public function shouldFailIfClassImplementsManyInterfaces()
     {
         $stu = new BasicInterfaceResolver();
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessageMatches(
+            "/Don't know which interface to choose from for ArrayIterator: Iterator,/"
+        );
         $stu->resolveInterface(ArrayIterator::class);
     }
 
     /**
      * @test
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Unable to determine the interface to implement for anUndefinedClass.
      * @throws \Exception
      */
     public function shouldFailIfClassDoesNotExist()
     {
         $stu = new BasicInterfaceResolver();
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Unable to determine the interface to implement for anUndefinedClass.");
         $stu->resolveInterface('anUndefinedClass');
     }
 

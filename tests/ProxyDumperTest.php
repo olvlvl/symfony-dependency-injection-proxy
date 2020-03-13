@@ -14,6 +14,7 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
+use InvalidArgumentException;
 use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
@@ -65,8 +66,6 @@ class ProxyDumperTest extends TestCase
     /**
      * @test
      * @dataProvider provideEmptyFactoryCode
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Missing factory code to construct the service `aServiceId`.
      * @throws \Exception
      */
     public function shouldFailIfFactoryCodeIsEmpty($factoryCode)
@@ -76,6 +75,8 @@ class ProxyDumperTest extends TestCase
             $this->prophesize(FactoryRenderer::class)->reveal()
         );
 
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Missing factory code to construct the service `aServiceId`.");
         $stu->getProxyFactoryCode(new Definition(), 'aServiceId', $factoryCode);
     }
 

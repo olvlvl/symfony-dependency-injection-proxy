@@ -17,8 +17,4 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && \
     php /tmp/composer-setup.php && \
     mv composer.phar /usr/local/bin/composer
 
-RUN wget -O phpunit https://phar.phpunit.de/phpunit-7.phar && \
-    chmod +x phpunit && \
-    mv phpunit /usr/local/bin/phpunit
-
 WORKDIR app
