@@ -115,16 +115,7 @@ many. For instance, if a service was an instance of `ArrayObject` the following 
 Don't know which interface to choose from for ArrayObject: IteratorAggregate, Traversable, ArrayAccess, Serializable, Countable.
 ```
 
-We can specify which interface to implement using the `proxy` tag:
-
-```yaml
-ArrayObject:
-  lazy: true
-  tags:
-  - { name: proxy, interface: ArrayAccess }
-```
-
-And since `symfony/dependency-injection` v4.2 we can specify the interface to implement using the `lazy` attribute:
+We can specify the interface to implement using the `lazy` attribute:
 
 ```yaml
 ArrayObject:
