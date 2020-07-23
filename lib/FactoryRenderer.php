@@ -14,6 +14,7 @@ namespace olvlvl\SymfonyDependencyInjectionProxy;
 use ReflectionClass;
 use ReflectionMethod;
 use function array_map;
+use const PHP_VERSION_ID;
 
 class FactoryRenderer
 {
@@ -34,7 +35,9 @@ class FactoryRenderer
     {
         $methods = $this->renderMethods(
             (new ReflectionClass($interface))->getMethods(),
-            '($this->service ?: $this->service = ($this->factory)())'
+            PHP_VERSION_ID >= 70400
+                ? '($this->service ??= ($this->factory)())'
+                : '($this->service ?: $this->service = ($this->factory)())'
         );
 
         return <<<PHPTPL

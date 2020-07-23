@@ -1,8 +1,25 @@
 ---
-version: "2.1"
+version: "3.0"
 services:
-  app:
-    build: .
+  app72:
+    build:
+      context: .
+      args:
+        PHP_VERSION: 7.2
+#        WITH_XDEBUG: "yes" # uncomment to enable Xdebug
+    environment:
+      PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
+    volumes:
+    - .:/app:delegated
+    - ~/.composer:/root/.composer:delegated
+  app74:
+    build:
+      context: .
+      args:
+        PHP_VERSION: 7.4
+        WITH_XDEBUG: "yes" # uncomment to enable Xdebug
+    environment:
+      PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
     volumes:
     - .:/app:delegated
     - ~/.composer:/root/.composer:delegated

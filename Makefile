@@ -22,8 +22,12 @@ test-coveralls: test-setup
 	@$(PHPUNIT) --coverage-clover build/logs/clover.xml
 	php vendor/bin/php-coveralls -v
 
-test-container:
-	@docker-compose run --rm app sh
+test-container-72:
+	@docker-compose run --rm app72 sh
+	@docker-compose down
+
+test-container-74:
+	@docker-compose run --rm app74 sh
 	@docker-compose down
 
 test-setup: vendor $(PHPUNIT_FILENAME)
