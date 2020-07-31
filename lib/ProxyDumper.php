@@ -11,7 +11,9 @@
 
 namespace olvlvl\SymfonyDependencyInjectionProxy;
 
+use Exception;
 use InvalidArgumentException;
+use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\DumperInterface;
 
@@ -31,10 +33,10 @@ final class ProxyDumper implements DumperInterface
      */
     private $factoryRenderer;
 
-    public function __construct(InterfaceResolver $interfaceResolver, FactoryRenderer $factoryRenderer)
+    public function __construct(InterfaceResolver $interfaceResolver = null, FactoryRenderer $factoryRenderer = null)
     {
-        $this->interfaceResolver = $interfaceResolver;
-        $this->factoryRenderer = $factoryRenderer;
+        $this->interfaceResolver = $interfaceResolver ?? new BasicInterfaceResolver();
+        $this->factoryRenderer = $factoryRenderer ?? new FactoryRenderer(new MethodRenderer());
     }
 
     /**
@@ -47,7 +49,7 @@ final class ProxyDumper implements DumperInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function getProxyFactoryCode(Definition $definition, $id, $factoryCode)
     {
@@ -86,7 +88,7 @@ PHPTPL;
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function findInterface(Definition $definition): string
     {

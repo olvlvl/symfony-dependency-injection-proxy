@@ -73,9 +73,6 @@ The following code demonstrates how to build, compile, and dump a container:
 ```php
 <?php
 
-use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
-use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
-use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
@@ -90,10 +87,7 @@ $builder = new ContainerBuilder();
 $builder->compile();
 
 $dumper = new PhpDumper($builder);
-$dumper->setProxyDumper(new ProxyDumper(
-    new BasicInterfaceResolver(),
-    new FactoryRenderer(new MethodRenderer)
-));
+$dumper->setProxyDumper(new ProxyDumper());
 
 /* @var string $containerFile */
 
@@ -101,7 +95,6 @@ file_put_contents($containerFile, $dumper->dump());
 ```
 
 There you have it. We can use our container as usual and everything is awesome and cute.
-
 
 
 

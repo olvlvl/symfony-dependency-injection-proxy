@@ -52,12 +52,7 @@ class IntegrationTest extends TestCase
         $builder->compile();
 
         $dumper = new PhpDumper($builder);
-        $dumper->setProxyDumper(
-            new ProxyDumper(
-                new BasicInterfaceResolver(),
-                new FactoryRenderer(new MethodRenderer())
-            )
-        );
+        $dumper->setProxyDumper(new ProxyDumper());
 
         $containerClass = 'Container' . uniqid();
         $containerFile = __DIR__ . "/sandbox/$containerClass.php";
