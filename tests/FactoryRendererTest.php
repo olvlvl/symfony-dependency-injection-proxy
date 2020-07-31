@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use ReflectionMethod;
 use Serializable;
+
 use const PHP_VERSION_ID;
 
 /**
@@ -37,9 +38,11 @@ class FactoryRendererTest extends TestCase
             PHP_VERSION_ID >= 70400
                 ? '($this->service ??= ($this->factory)())'
                 : '($this->service ?: $this->service = ($this->factory)())'
-        )->will(function (array $args) {
-            return '                codeFor:' . $args[0]->getName();
-        });
+        )->will(
+            function (array $args) {
+                return '                codeFor:' . $args[0]->getName();
+            }
+        );
 
         $stu = new FactoryRenderer($methodRenderer->reveal());
         $expected = <<<PHPTPL

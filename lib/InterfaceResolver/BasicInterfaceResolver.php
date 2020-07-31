@@ -13,6 +13,7 @@ namespace olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 
 use LogicException;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
+
 use function class_exists;
 use function class_implements;
 use function count;

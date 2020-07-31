@@ -14,9 +14,6 @@ class Sample implements SampleInterface
         $this->value = $value;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue(): string
     {
         return $this->value;

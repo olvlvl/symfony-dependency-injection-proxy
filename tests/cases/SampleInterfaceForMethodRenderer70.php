@@ -15,7 +15,7 @@ use ArrayAccess;
 
 interface SampleInterfaceForMethodRenderer70
 {
-    const A_CONSTANT = 'aConstantValue';
+    public const A_CONSTANT = 'aConstantValue';
 
     public static function aStaticMethodWithoutParametersOrReturnType();
 

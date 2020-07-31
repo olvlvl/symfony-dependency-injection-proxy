@@ -11,12 +11,14 @@
 
 namespace olvlvl\SymfonyDependencyInjectionProxy;
 
+use Exception;
+
 interface InterfaceResolver
 {
     /**
      * Given a class, resolve the interface to use to create its proxy.
      *
-     * @throws \Exception if the interface cannot be resolved.
+     * @throws Exception if the interface cannot be resolved.
      */
     public function resolveInterface(string $class): string;
 }

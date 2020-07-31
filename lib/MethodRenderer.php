@@ -14,6 +14,7 @@ namespace olvlvl\SymfonyDependencyInjectionProxy;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionType;
+
 use function implode;
 use function json_encode;
 
@@ -80,9 +81,15 @@ PHPTPL;
 
     private function renderCall(ReflectionMethod $method): string
     {
-        $parameters = implode(', ', array_map(function (ReflectionParameter $parameter) {
-            return '$' . $parameter->getName();
-        }, $method->getParameters()));
+        $parameters = implode(
+            ', ',
+            array_map(
+                function (ReflectionParameter $parameter) {
+                    return '$' . $parameter->getName();
+                },
+                $method->getParameters()
+            )
+        );
 
         return $method->getName() . "($parameters)";
     }

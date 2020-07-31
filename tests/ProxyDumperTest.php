@@ -20,8 +20,6 @@ use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
-use function count;
-use function explode;
 
 /**
  * @group unit
@@ -49,16 +47,16 @@ class ProxyDumperTest extends TestCase
 
         return [
 
-            [ (new Definition)->setLazy(false), false ],
-            [ (new Definition)->setLazy(false)->setFactory($factory), false ],
-            [ (new Definition)->setLazy(false)->setClass($class), false ],
-            [ (new Definition)->setLazy(false)->setFactory($factory)->setClass($class), false ],
-            [ (new Definition)->setLazy(true), false ],
-            [ (new Definition)->setLazy(true)->setFactory($factory), true ],
-            [ (new Definition)->setLazy(true)->setClass($class), true ],
-            [ (new Definition)->setLazy(true)->setClass($interface), false ],
-            [ (new Definition)->setLazy(true)->setFactory($factory)->setClass($class), true ],
-            [ (new Definition)->setLazy(true)->setFactory($factory)->setClass($interface), true ],
+            [ (new Definition())->setLazy(false), false ],
+            [ (new Definition())->setLazy(false)->setFactory($factory), false ],
+            [ (new Definition())->setLazy(false)->setClass($class), false ],
+            [ (new Definition())->setLazy(false)->setFactory($factory)->setClass($class), false ],
+            [ (new Definition())->setLazy(true), false ],
+            [ (new Definition())->setLazy(true)->setFactory($factory), true ],
+            [ (new Definition())->setLazy(true)->setClass($class), true ],
+            [ (new Definition())->setLazy(true)->setClass($interface), false ],
+            [ (new Definition())->setLazy(true)->setFactory($factory)->setClass($class), true ],
+            [ (new Definition())->setLazy(true)->setFactory($factory)->setClass($interface), true ],
 
         ];
     }
@@ -96,7 +94,7 @@ class ProxyDumperTest extends TestCase
      */
     public function testGetProxyFactoryCode(string $id, bool $private, bool $shared, string $expectedStore)
     {
-        $definition = (new Definition)
+        $definition = (new Definition())
             ->setClass($class = ArrayIterator::class)
             ->setPrivate($private)
             ->setShared($shared);

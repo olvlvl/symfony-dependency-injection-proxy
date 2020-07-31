@@ -12,8 +12,11 @@
 namespace olvlvl\SymfonyDependencyInjectionProxy;
 
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
+
 use function array_map;
+
 use const PHP_VERSION_ID;
 
 class FactoryRenderer
@@ -29,7 +32,7 @@ class FactoryRenderer
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __invoke(string $interface, string $factoryCode): string
     {
@@ -66,8 +69,14 @@ PHPTPL;
     {
         $renderMethod = $this->methodRenderer;
 
-        return implode("\n", array_map(function (ReflectionMethod $method) use ($renderMethod, $getterCode) {
-            return $renderMethod($method, $getterCode);
-        }, $methods));
+        return implode(
+            "\n",
+            array_map(
+                function (ReflectionMethod $method) use ($renderMethod, $getterCode) {
+                    return $renderMethod($method, $getterCode);
+                },
+                $methods
+            )
+        );
     }
 }

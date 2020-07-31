@@ -29,6 +29,7 @@ use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\Sample;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\Sample2;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterface;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterface2;
+
 use function uniqid;
 
 /**
@@ -51,19 +52,21 @@ class IntegrationTest extends TestCase
         $builder->compile();
 
         $dumper = new PhpDumper($builder);
-        $dumper->setProxyDumper(new ProxyDumper(
-            new BasicInterfaceResolver(),
-            new FactoryRenderer(new MethodRenderer)
-        ));
+        $dumper->setProxyDumper(
+            new ProxyDumper(
+                new BasicInterfaceResolver(),
+                new FactoryRenderer(new MethodRenderer())
+            )
+        );
 
         $containerClass = 'Container' . uniqid();
         $containerFile = __DIR__ . "/sandbox/$containerClass.php";
 
-        file_put_contents($containerFile, $dumper->dump([ 'class' => $containerClass ]));
+        file_put_contents($containerFile, $dumper->dump(['class' => $containerClass]));
 
         require $containerFile;
 
-        $assert(new $containerClass);
+        $assert(new $containerClass());
     }
 
     public function provideDefinition(): array
@@ -74,11 +77,11 @@ class IntegrationTest extends TestCase
 
             "service uses a class with one interface" => [
                 [
-                    $id = uniqid() => (new Definition)
+                    $id = uniqid() => (new Definition())
                         ->setClass(Sample::class)
                         ->setLazy(true)
                         ->setPublic(true)
-                        ->addArgument($value = uniqid())
+                        ->addArgument($value = uniqid()),
                 ],
                 function (ContainerInterface $container) use ($id, $value) {
                     /* @var SampleInterface $service */
@@ -89,18 +92,18 @@ class IntegrationTest extends TestCase
                     $this->assertNotInstanceOf(Sample::class, $service);
 
                     $this->assertSame($value, $service->getValue());
-                }
+                },
             ],
 
             "service uses a class with many interfaces" => [
                 [
-                    $id = uniqid() => (new Definition)
+                    $id = uniqid() => (new Definition())
                         ->setClass(Sample2::class)
                         ->setLazy(true)
                         ->setPublic(true)
                         ->addArgument(uniqid())
                         ->addArgument($value2 = uniqid())
-                        ->addTag('proxy', [ 'interface' => SampleInterface2::class ])
+                        ->addTag('proxy', ['interface' => SampleInterface2::class]),
                 ],
                 function (ContainerInterface $container) use ($id, $value2) {
                     /* @var SampleInterface2 $service */
@@ -111,23 +114,20 @@ class IntegrationTest extends TestCase
                     $this->assertNotInstanceOf(Sample2::class, $service);
 
                     $this->assertSame($value2, $service->getValue2());
-                }
+                },
             ],
 
             "service uses a factory" => [
                 [
-                    $id = uniqid() => (new Definition)
+                    $id = uniqid() => (new Definition())
                         ->setClass(BuildableInterface::class)
-                        ->setFactory([
-                            new Reference('factory'),
-                            'build'
-                        ])
+                        ->setFactory([ new Reference('factory'), 'build' ])
                         ->setLazy(true)
                         ->setPublic(true),
 
-                    'factory' => (new Definition)
+                    'factory' => (new Definition())
                         ->setClass(BuildableFactory::class)
-                        ->addArgument($factoryName = 'factory-' . uniqid())
+                        ->addArgument($factoryName = 'factory-' . uniqid()),
                 ],
                 function (ContainerInterface $container) use ($id, $factoryName) {
                     /* @var BuildableInterface $service */
@@ -138,16 +138,16 @@ class IntegrationTest extends TestCase
                     $this->assertNotInstanceOf(Buildable::class, $service);
 
                     $this->assertSame($factoryName, $service->getFactory());
-                }
+                },
             ],
 
             "service has an alias" => [
                 [
-                    $id = uniqid() => (new Definition)
+                    $id = uniqid() => (new Definition())
                         ->setClass(Sample::class)
                         ->setLazy(true)
                         ->setPublic(true)
-                        ->addArgument($value = uniqid())
+                        ->addArgument($value = uniqid()),
                 ],
                 function (ContainerInterface $container) use ($id, $alias, $value) {
                     /* @var SampleInterface $service */
@@ -168,11 +168,11 @@ class IntegrationTest extends TestCase
 
             "service is private but as a public alias" => [
                 [
-                    $id = uniqid() => (new Definition)
+                    $id = uniqid() => (new Definition())
                         ->setClass(Sample::class)
                         ->setLazy(true)
                         ->setPublic(false)
-                        ->addArgument($value = uniqid())
+                        ->addArgument($value = uniqid()),
                 ],
                 function (ContainerInterface $container) use ($alias, $value) {
                     /* @var SampleInterface $service */
@@ -185,12 +185,8 @@ class IntegrationTest extends TestCase
                     $this->assertSame($value, $service->getValue());
                 },
                 function (ContainerBuilder $builder) use ($id, $alias) {
-                    $builder->addAliases([
-
-                        $alias => new Alias($id, true),
-
-                    ]);
-                }
+                    $builder->addAliases([ $alias => new Alias($id, true) ]);
+                },
             ],
 
         ];

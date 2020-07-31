@@ -68,12 +68,12 @@ class BasicInterfaceResolverTest extends TestCase
 
             "given an interface, should return the same interface" => [
                 DateTimeInterface::class,
-                DateTimeInterface::class
+                DateTimeInterface::class,
             ],
 
             "given an class with a single interface, should return its interface" => [
                 DateTimeImmutable::class,
-                DateTimeInterface::class
+                DateTimeInterface::class,
             ],
 
         ];

@@ -20,9 +20,6 @@ class Sample2 implements SampleInterface, SampleInterface2
         $this->value2 = $value2;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue(): string
     {
         return $this->value;

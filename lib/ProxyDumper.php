@@ -14,6 +14,7 @@ namespace olvlvl\SymfonyDependencyInjectionProxy;
 use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\DumperInterface;
+
 use function class_exists;
 use function ltrim;
 use function sprintf;

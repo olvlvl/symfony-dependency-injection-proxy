@@ -14,7 +14,6 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use const PHP_VERSION_ID;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer70;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer72;
 
