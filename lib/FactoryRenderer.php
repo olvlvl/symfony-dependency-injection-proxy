@@ -16,6 +16,7 @@ use ReflectionException;
 use ReflectionMethod;
 
 use function array_map;
+use function implode;
 
 use const PHP_VERSION_ID;
 
@@ -65,7 +66,7 @@ PHPTPL;
     /**
      * @param ReflectionMethod[] $methods
      */
-    private function renderMethods(array $methods, string $getterCode)
+    private function renderMethods(array $methods, string $getterCode): string
     {
         $renderMethod = $this->methodRenderer;
 

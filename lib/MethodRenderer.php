@@ -15,6 +15,7 @@ use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionType;
 
+use function array_map;
 use function implode;
 use function json_encode;
 

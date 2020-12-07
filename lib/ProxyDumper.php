@@ -100,11 +100,7 @@ PHPTPL;
     {
         $proxy = $definition->getTag('proxy');
 
-        if (empty($proxy[0]['interface'])) {
-            return null;
-        }
-
-        return $proxy[0]['interface'];
+        return $proxy[0]['interface'] ?? null;
     }
 
     private function renderFactory(string $interface, string $factoryCode): string
