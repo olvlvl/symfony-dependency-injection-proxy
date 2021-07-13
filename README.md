@@ -6,7 +6,7 @@
 [![Code Coverage](https://img.shields.io/coveralls/olvlvl/symfony-dependency-injection-proxy.svg)](https://coveralls.io/r/olvlvl/symfony-dependency-injection-proxy)
 
 This package provides a proxy generator for [Symfony's dependency injection component][1] that generates super tiny,
-super simple proxies, especially when [compared to Symphony's default implementation][2]. Here are some differences:
+super simple proxies, especially when [compared to Symfony's default implementation][2]. Here are some differences:
 
 - Can proxy `final` classes.
 - Can only proxy classes with interfaces.
@@ -166,6 +166,6 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 [1]: https://symfony.com/doc/current/components/dependency_injection.html
-[2]: https://github.com/olvlvl/symfony-dependency-injection-proxy/wiki/Comparing-olvlvl's-proxy-generator-with-Symphony's
+[2]: https://github.com/olvlvl/symfony-dependency-injection-proxy/wiki/Comparison
 [3]: https://symfony.com/doc/current/service_container/lazy_services.html
 [4]: https://en.wikipedia.org/wiki/Dependency_inversion_principle
