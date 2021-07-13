@@ -16,6 +16,9 @@ use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer70;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer72;
+use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer80;
+
+use const PHP_VERSION_ID;
 
 /**
  * @group unit
@@ -42,7 +45,7 @@ class MethodRendererTest extends TestCase
             return new ReflectionMethod(SampleInterfaceForMethodRenderer72::class, $method);
         };
 
-        return [
+        $cases = [
 
             [
                 $reflectionFor('aStaticMethodWithoutParametersOrReturnType'),
@@ -168,5 +171,35 @@ PHPTPL
             ],
 
         ];
+
+        if (PHP_VERSION_ID >= 80000) {
+            $reflectionFor80 = function (string $method) {
+                return new ReflectionMethod(SampleInterfaceForMethodRenderer80::class, $method);
+            };
+
+            $cases["aMethodWithMixed"] = [
+                $reflectionFor80('aMethodWithMixed'),
+                $getterCode,
+                <<<PHPTPL
+                public function aMethodWithMixed(mixed \$a): mixed
+                {
+                    return {$getterCode}->aMethodWithMixed(\$a);
+                }
+PHPTPL
+            ];
+
+            $cases["aMethodWithUnionTypes"] = [
+                $reflectionFor80('aMethodWithUnionTypes'),
+                $getterCode,
+                <<<PHPTPL
+                public function aMethodWithUnionTypes(string|int|null \$a): string|int|null
+                {
+                    return {$getterCode}->aMethodWithUnionTypes(\$a);
+                }
+PHPTPL
+            ];
+        }
+
+        return $cases;
     }
 }

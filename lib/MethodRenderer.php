@@ -12,12 +12,16 @@
 namespace olvlvl\SymfonyDependencyInjectionProxy;
 
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionType;
+use ReflectionUnionType;
 
 use function array_map;
 use function implode;
 use function json_encode;
+
+use const PHP_VERSION_ID;
 
 class MethodRenderer
 {
@@ -25,7 +29,7 @@ class MethodRenderer
     {
         $signature = $this->renderMethodSignature($method);
         $call = $this->renderCall($method);
-        $mayReturn = ($method->hasReturnType() && $method->getReturnType()->getName() === 'void') ? '' : 'return ';
+        $mayReturn = $this->useReturn($method) ? 'return ' : '';
 
         return <<<PHPTPL
                 $signature
@@ -97,6 +101,29 @@ PHPTPL;
 
     private function renderType(ReflectionType $type): string
     {
-        return ($type->allowsNull() ? '?' : '') . ($type->isBuiltin() ? '' : '\\') . $type->getName();
+        if (PHP_VERSION_ID >= 80000 && $type instanceof ReflectionUnionType) {
+            return implode('|', array_map(function (ReflectionNamedType $namedType) {
+                return $namedType->getName();
+            }, $type->getTypes()));
+        }
+
+        $name = $type->getName();
+
+        return ($name !== 'mixed' && $type->allowsNull() ? '?' : '') . ($type->isBuiltin() ? '' : '\\') . $name;
+    }
+
+    private function useReturn(ReflectionMethod $method): bool
+    {
+        $type = $method->getReturnType();
+
+        if (PHP_VERSION_ID >= 80000 && $type instanceof ReflectionUnionType) {
+            return true;
+        }
+
+        if ($method->hasReturnType() && $type->getName() === 'void') {
+            return false;
+        }
+
+        return true;
     }
 }

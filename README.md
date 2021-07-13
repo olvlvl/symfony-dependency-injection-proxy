@@ -142,7 +142,7 @@ The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de
 [Composer](http://getcomposer.org/) need to be globally available to run the suite. The command
 installs dependencies as required. The `make test-coverage` command runs test suite and also creates
 an HTML coverage report in `build/coverage`. If your environment doesn't meet the requirements you can run the tests
-with a container, run `make test-container-72` or `make test-container-74` to create it.
+with a container, run `make test-container-72`, `make test-container-74`, or `make test-container-80` to create it.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 

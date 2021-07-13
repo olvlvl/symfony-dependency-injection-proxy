@@ -28,6 +28,10 @@ test-container-74:
 	@docker-compose run --rm app74 sh
 	@docker-compose down
 
+test-container-80:
+	@docker-compose run --rm app80 sh
+	@docker-compose down
+
 test-setup: vendor $(PHPUNIT_FILENAME)
 	@rm -f tests/sandbox/*
 
