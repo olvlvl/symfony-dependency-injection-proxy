@@ -6,7 +6,6 @@ services:
       context: .
       args:
         PHP_VERSION: 7.2
-#        WITH_XDEBUG: "yes" # uncomment to enable Xdebug
     environment:
       PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
     volumes:
@@ -17,7 +16,6 @@ services:
       context: .
       args:
         PHP_VERSION: 7.4
-        WITH_XDEBUG: "yes" # uncomment to enable Xdebug
     environment:
       PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
     volumes:

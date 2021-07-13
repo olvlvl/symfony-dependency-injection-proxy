@@ -1,10 +1,9 @@
 # Proxy generator for Symfony's DIC
 
 [![Release](https://img.shields.io/packagist/v/olvlvl/symfony-dependency-injection-proxy.svg)](https://packagist.org/packages/olvlvl/symfony-dependency-injection-proxy)
-[![Build Status](https://img.shields.io/travis/olvlvl/symfony-dependency-injection-proxy.svg)](http://travis-ci.org/olvlvl/symfony-dependency-injection-proxy)
+[![Packagist](https://img.shields.io/packagist/dt/olvlvl/symfony-dependency-injection-proxy.svg)](https://packagist.org/packages/olvlvl/symfony-dependency-injection-proxy)
 [![Code Quality](https://img.shields.io/scrutinizer/g/olvlvl/symfony-dependency-injection-proxy.svg)](https://scrutinizer-ci.com/g/olvlvl/symfony-dependency-injection-proxy)
 [![Code Coverage](https://img.shields.io/coveralls/olvlvl/symfony-dependency-injection-proxy.svg)](https://coveralls.io/r/olvlvl/symfony-dependency-injection-proxy)
-[![Packagist](https://img.shields.io/packagist/dt/olvlvl/symfony-dependency-injection-proxy.svg)](https://packagist.org/packages/olvlvl/symfony-dependency-injection-proxy)
 
 This package provides a proxy generator for [Symfony's dependency injection component][1] that generates super tiny,
 super simple proxies, especially when [compared to Symphony's default implementation][2]. Here are some differences:
@@ -17,6 +16,14 @@ super simple proxies, especially when [compared to Symphony's default implementa
 
 > If you're not familiar with proxy services, better have a look at [Symfony's documentation][3] before going any
 > further.
+
+
+
+## Installation
+
+```bash
+composer require olvlvl/symfony-dependency-injection-proxy
+```
 
 
 
@@ -129,29 +136,6 @@ ArrayObject:
 
 
 
-## Requirements
-
-The package requires PHP 7.2.5 or later.
-
-
-
-## Installation
-
-The recommended way to install this package is through [Composer](http://getcomposer.org/):
-
-	$ composer require olvlvl/symfony-dependency-injection-proxy
-
-
-
-### Cloning the repository
-
-The package is [available on GitHub](https://github.com/olvlvl/symfony-dependency-injection-proxy),
-its repository can be cloned with the following command line:
-
-	$ git clone https://github.com/olvlvl/symfony-dependency-injection-proxy.git
-
-
-
 ## Testing
 
 The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de/) and
@@ -162,14 +146,13 @@ with a container, run `make test-container-72` or `make test-container-74` to cr
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://img.shields.io/travis/olvlvl/symfony-dependency-injection-proxy.svg)](http://travis-ci.org/olvlvl/symfony-dependency-injection-proxy)
-[![Code Coverage](https://img.shields.io/coveralls/olvlvl/symfony-dependency-injection-proxy.svg)](https://coveralls.io/r/olvlvl/symfony-dependency-injection-proxy)
+[![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
 
 
 
 ## License
 
-**olvlvl/symfony-dependency-injection-proxy** is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
+**olvlvl/symfony-dependency-injection-proxy** is released under the [BSD-3-Clause](LICENSE).
 
 
 

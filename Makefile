@@ -14,13 +14,11 @@ test: test-setup
 
 test-coverage: test-setup
 	@mkdir -p build/coverage
-	@$(PHPUNIT) --coverage-html build/coverage
+	@XDEBUG_MODE=coverage $(PHPUNIT) --coverage-html build/coverage
 
 test-coveralls: test-setup
 	@mkdir -p build/logs
-	composer require php-coveralls/php-coveralls '^2.0'
-	@$(PHPUNIT) --coverage-clover build/logs/clover.xml
-	php vendor/bin/php-coveralls -v
+	@XDEBUG_MODE=coverage $(PHPUNIT) --coverage-clover build/logs/clover.xml
 
 test-container-72:
 	@docker-compose run --rm app72 sh

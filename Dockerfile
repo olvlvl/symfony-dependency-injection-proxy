@@ -10,18 +10,13 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && \
     php /tmp/composer-setup.php && \
     mv composer.phar /usr/local/bin/composer
 
-ARG WITH_XDEBUG="no"
-RUN if [ "$WITH_XDEBUG" = "yes" ];\
-    then \
-        apk add --no-cache $PHPIZE_DEPS &&\
-        pecl install xdebug &&\
-        docker-php-ext-enable xdebug &&\
-        echo $'\
-xdebug.coverage_enable=0\n\
-xdebug.remote_autostart=1\n\
-xdebug.remote_enable=1\n\
-xdebug.remote_host=host.docker.internal\n\
-' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini\
-    ; fi
+RUN apk add --no-cache $PHPIZE_DEPS &&\
+    pecl install xdebug &&\
+    docker-php-ext-enable xdebug &&\
+    echo $'\
+xdebug.client_host=host.docker.internal\n\
+xdebug.mode=develop\n\
+xdebug.start_with_request=yes\n\
+' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 WORKDIR app
