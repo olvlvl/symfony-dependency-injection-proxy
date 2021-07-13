@@ -19,7 +19,7 @@ super simple proxies, especially when [compared to Symphony's default implementa
 
 
 
-## Installation
+#### Installation
 
 ```bash
 composer require olvlvl/symfony-dependency-injection-proxy
@@ -146,18 +146,9 @@ The project is continuously tested by [GitHub actions](https://github.com/olvlvl
 
 
 
-## Testing
+## Contributing
 
-A few Docker containers are provided for local development:
-
-- Run `make test-container-72` for PHP 7.2. Use this one by default, unless you want to test features of more recent
-  PHP versions.
-- Run `make test-container-74` for PHP 7.4.
-- Run `make test-container-80` for PHP 8.0. Use this one if you want to run static analysis.
-
-Inside the container, run `make test` to execute the test suite. Alternatively, run `make test-coverage` to run the test
-suite with coverage report. The coverage report is created at `build/coverage/index.html`. Before committing your
-changes run `make lint` to make sure the code is healthy and follows our code style.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 
