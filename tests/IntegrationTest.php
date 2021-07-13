@@ -11,9 +11,6 @@
 
 namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 
-use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
-use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
-use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -39,8 +36,10 @@ class IntegrationTest extends TestCase
 {
     /**
      * @dataProvider provideDefinition
+     *
+     * @param Definition[] $definitions
      */
-    public function testCompilation(array $definitions, callable $assert, callable $tweakBuilder = null)
+    public function testCompilation(array $definitions, callable $assert, callable $tweakBuilder = null): void
     {
         $builder = new ContainerBuilder();
         $builder->addDefinitions($definitions);
@@ -64,6 +63,9 @@ class IntegrationTest extends TestCase
         $assert(new $containerClass());
     }
 
+    /**
+     * @return array[]
+     */
     public function provideDefinition(): array
     {
         $alias = 'alias-' . uniqid();

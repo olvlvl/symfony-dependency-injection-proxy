@@ -136,18 +136,28 @@ ArrayObject:
 
 
 
-## Testing
+## Continuous Integration
 
-The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de/) and
-[Composer](http://getcomposer.org/) need to be globally available to run the suite. The command
-installs dependencies as required. The `make test-coverage` command runs test suite and also creates
-an HTML coverage report in `build/coverage`. If your environment doesn't meet the requirements you can run the tests
-with a container, run `make test-container-72`, `make test-container-74`, or `make test-container-80` to create it.
-
-The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
+The project is continuously tested by [GitHub actions](https://github.com/olvlvl/event-dispatcher/actions).
 
 [![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
+[![Static Analysis](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/static-analysis/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Astatic-analysis)
 [![Code Style](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/code-style/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Acode-style)
+
+
+
+## Testing
+
+A few Docker containers are provided for local development:
+
+- Run `make test-container-72` for PHP 7.2. Use this one by default, unless you want to test features of more recent
+  PHP versions.
+- Run `make test-container-74` for PHP 7.4.
+- Run `make test-container-80` for PHP 8.0. Use this one if you want to run static analysis.
+
+Inside the container, run `make test` to execute the test suite. Alternatively, run `make test-coverage` to run the test
+suite with coverage report. The coverage report is created at `build/coverage/index.html`. Before committing your
+changes run `make lint` to make sure the code is healthy and follows our code style.
 
 
 

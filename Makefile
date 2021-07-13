@@ -1,38 +1,42 @@
-PHPUNIT_VERSION = phpunit-8.5.phar
-PHPUNIT_FILENAME = build/$(PHPUNIT_VERSION)
-PHPUNIT = php $(PHPUNIT_FILENAME)
+PHPUNIT = vendor/bin/phpunit
 
 vendor:
 	@composer install
 
-$(PHPUNIT_FILENAME):
-	mkdir -p build
-	curl -o $(PHPUNIT_FILENAME) -L https://phar.phpunit.de/$(PHPUNIT_VERSION)
-
+.PHONY: test
 test: test-setup
 	@$(PHPUNIT)
 
+.PHONY: test-coverage
 test-coverage: test-setup
 	@mkdir -p build/coverage
 	@XDEBUG_MODE=coverage $(PHPUNIT) --coverage-html build/coverage
 
+.PHONY: test-coveralls
 test-coveralls: test-setup
 	@mkdir -p build/logs
 	@XDEBUG_MODE=coverage $(PHPUNIT) --coverage-clover build/logs/clover.xml
 
+.PHONY: test-container-72
 test-container-72:
 	@docker-compose run --rm app72 sh
 	@docker-compose down
 
+.PHONY: test-container-74
 test-container-74:
 	@docker-compose run --rm app74 sh
 	@docker-compose down
 
+.PHONY: test-container-80
 test-container-80:
 	@docker-compose run --rm app80 sh
 	@docker-compose down
 
+.PHONY: test-setup
 test-setup: vendor $(PHPUNIT_FILENAME)
 	@rm -f tests/sandbox/*
 
-.PHONY: all test test-container test-coverage test-coveralls test-setup
+.PHONY: lint
+lint:
+	@phpcs
+	@vendor/bin/phpstan

@@ -33,6 +33,8 @@ class FactoryRenderer
     }
 
     /**
+     * @phpstan-param class-string $interface
+     *
      * @throws ReflectionException
      */
     public function __invoke(string $interface, string $factoryCode): string

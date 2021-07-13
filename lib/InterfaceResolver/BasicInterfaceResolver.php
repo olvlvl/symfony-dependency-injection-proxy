@@ -33,14 +33,17 @@ final class BasicInterfaceResolver implements InterfaceResolver
         }
 
         if (class_exists($class)) {
+            /** @phpstan-var class-string[]|false $interfaces */
             $interfaces = class_implements($class);
 
-            if (count($interfaces) > 1) {
-                $interfaces = implode(', ', $interfaces);
-                throw new LogicException("Don't know which interface to choose from for $class: $interfaces.");
-            }
+            if ($interfaces) {
+                if (count($interfaces) > 1) {
+                    $interfaces = implode(', ', $interfaces);
+                    throw new LogicException("Don't know which interface to choose from for $class: $interfaces.");
+                }
 
-            return reset($interfaces);
+                return reset($interfaces);
+            }
         }
 
         throw new LogicException("Unable to determine the interface to implement for $class.");

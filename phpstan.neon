@@ -1,0 +1,8 @@
+parameters:
+    level: max
+    paths:
+        - lib
+        - tests
+    excludePaths:
+        - tests/cases/*
+        - tests/sandbox/*

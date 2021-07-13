@@ -14,6 +14,7 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
+use Exception;
 use InvalidArgumentException;
 use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
@@ -24,12 +25,12 @@ use Symfony\Component\DependencyInjection\Definition;
 /**
  * @group unit
  */
-class ProxyDumperTest extends TestCase
+final class ProxyDumperTest extends TestCase
 {
     /**
      * @dataProvider provideIsProxyCandidate
      */
-    public function testIsProxyCandidate(Definition $definition, bool $expected)
+    public function testIsProxyCandidate(Definition $definition, bool $expected): void
     {
         $stu = new ProxyDumper(
             $this->prophesize(InterfaceResolver::class)->reveal(),
@@ -39,6 +40,9 @@ class ProxyDumperTest extends TestCase
         $this->assertSame($expected, $stu->isProxyCandidate($definition));
     }
 
+    /**
+     * @return array[]
+     */
     public function provideIsProxyCandidate(): array
     {
         $factory = 'aFactory';
@@ -63,10 +67,9 @@ class ProxyDumperTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideEmptyFactoryCode
-     * @throws \Exception
+     * @throws Exception
      */
-    public function shouldFailIfFactoryCodeIsEmpty($factoryCode)
+    public function shouldFailIfFactoryCodeIsEmpty(): void
     {
         $stu = new ProxyDumper(
             $this->prophesize(InterfaceResolver::class)->reveal(),
@@ -75,24 +78,14 @@ class ProxyDumperTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Missing factory code to construct the service `aServiceId`.");
-        $stu->getProxyFactoryCode(new Definition(), 'aServiceId', $factoryCode);
-    }
-
-    public function provideEmptyFactoryCode(): array
-    {
-        return [
-
-            [ '' ],
-            [ null ],
-
-        ];
+        $stu->getProxyFactoryCode(new Definition(), 'aServiceId', '');
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      * @dataProvider provideGetProxyFactoryCode
      */
-    public function testGetProxyFactoryCode(string $id, bool $private, bool $shared, string $expectedStore)
+    public function testGetProxyFactoryCode(string $id, bool $private, bool $shared, string $expectedStore): void
     {
         $definition = (new Definition())
             ->setClass($class = ArrayIterator::class)
@@ -121,18 +114,19 @@ PHPTPL;
         $this->assertEquals($expected, $stu->getProxyFactoryCode($definition, $id, $factoryCode));
     }
 
+    /**
+     * @return array[]
+     */
     public function provideGetProxyFactoryCode(): array
     {
         $id = 'aServiceId';
-        $public = false;
-        $shared = true;
 
         return [
 
-            [ $id, $public, $shared, "\$this->services['$id'] = " ],
-            [ $id, !$public, $shared, "\$this->privates['$id'] = " ],
-            [ $id, $public, !$shared, "" ],
-            [ $id, !$public, !$shared, "" ],
+            [ $id, false, true, "\$this->services['$id'] = " ],
+            [ $id, true, true, "\$this->privates['$id'] = " ],
+            [ $id, false, false, "" ],
+            [ $id, true, false, "" ],
 
         ];
     }
@@ -140,7 +134,7 @@ PHPTPL;
     /**
      * @see https://github.com/symfony/symfony/issues/28852
      */
-    public function testGetProxyCode()
+    public function testGetProxyCode(): void
     {
         $stu = new ProxyDumper(
             $this->prophesize(InterfaceResolver::class)->reveal(),

@@ -14,6 +14,7 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use ArrayIterator;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Exception;
 use LogicException;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
 use PHPUnit\Framework\TestCase;
@@ -21,13 +22,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  */
-class BasicInterfaceResolverTest extends TestCase
+final class BasicInterfaceResolverTest extends TestCase
 {
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
-    public function shouldFailIfClassImplementsManyInterfaces()
+    public function shouldFailIfClassImplementsManyInterfaces(): void
     {
         $stu = new BasicInterfaceResolver();
 
@@ -40,28 +41,35 @@ class BasicInterfaceResolverTest extends TestCase
 
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
-    public function shouldFailIfClassDoesNotExist()
+    public function shouldFailIfClassDoesNotExist(): void
     {
         $stu = new BasicInterfaceResolver();
+        /** @phpstan-var class-string $undefinedClass */
+        $undefinedClass = 'anUndefinedClass';
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage("Unable to determine the interface to implement for anUndefinedClass.");
-        $stu->resolveInterface('anUndefinedClass');
+        $stu->resolveInterface($undefinedClass);
     }
 
     /**
      * @dataProvider provideResolveInterface
      *
-     * @throws \Exception
+     * @phpstan-param class-string $class
+     *
+     * @throws Exception
      */
-    public function testResolveInterface(string $class, string $expected)
+    public function testResolveInterface(string $class, string $expected): void
     {
         $stu = new BasicInterfaceResolver();
         $this->assertSame($expected, $stu->resolveInterface($class));
     }
 
+    /**
+     * @return array[]
+     */
     public function provideResolveInterface(): array
     {
         return [

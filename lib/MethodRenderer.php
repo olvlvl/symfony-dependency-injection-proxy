@@ -11,6 +11,7 @@
 
 namespace olvlvl\SymfonyDependencyInjectionProxy;
 
+use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
@@ -18,6 +19,7 @@ use ReflectionType;
 use ReflectionUnionType;
 
 use function array_map;
+use function assert;
 use function implode;
 use function json_encode;
 
@@ -52,10 +54,10 @@ PHPTPL;
         }
 
         $return = '';
+        $returnType = $method->getReturnType();
 
-        if ($method->hasReturnType()) {
-            $type = $method->getReturnType();
-            $return = ': ' . $this->renderType($type);
+        if ($returnType) {
+            $return = ': ' . $this->renderType($returnType);
         }
 
         $params = [];
@@ -67,12 +69,16 @@ PHPTPL;
         return implode(' ', $qualifiers) . " function {$method->getName()}(" . implode(', ', $params) . ")$return";
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function renderParameter(ReflectionParameter $parameter): string
     {
         $code = '';
+        $type = $parameter->getType();
 
-        if ($parameter->hasType()) {
-            $code = $this->renderType($parameter->getType()) . ' ';
+        if ($type) {
+            $code = $this->renderType($type) . ' ';
         }
 
         $code .= '$' . $parameter->getName();
@@ -107,6 +113,8 @@ PHPTPL;
             }, $type->getTypes()));
         }
 
+        assert($type instanceof ReflectionNamedType);
+
         $name = $type->getName();
 
         return ($name !== 'mixed' && $type->allowsNull() ? '?' : '') . ($type->isBuiltin() ? '' : '\\') . $name;
@@ -120,7 +128,7 @@ PHPTPL;
             return true;
         }
 
-        if ($method->hasReturnType() && $type->getName() === 'void') {
+        if ($type instanceof ReflectionNamedType && $type->getName() === 'void') {
             return false;
         }
 

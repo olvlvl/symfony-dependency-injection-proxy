@@ -14,7 +14,9 @@ namespace olvlvl\SymfonyDependencyInjectionProxy;
 use Exception;
 use InvalidArgumentException;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
+use ReflectionException;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\DumperInterface;
 
 use function class_exists;
@@ -42,16 +44,18 @@ final class ProxyDumper implements DumperInterface
     /**
      * @inheritdoc
      */
-    public function isProxyCandidate(Definition $definition)
+    public function isProxyCandidate(Definition $definition): bool
     {
-        return $definition->isLazy() && ($definition->getFactory() || class_exists($definition->getClass()));
+        $class = $definition->getClass();
+
+        return $definition->isLazy() && ($definition->getFactory() || ($class && class_exists($class)));
     }
 
     /**
      * @inheritdoc
      * @throws Exception
      */
-    public function getProxyFactoryCode(Definition $definition, $id, $factoryCode)
+    public function getProxyFactoryCode(Definition $definition, string $id, string $factoryCode): string
     {
         if (!$factoryCode) {
             throw new InvalidArgumentException("Missing factory code to construct the service `$id`.");
@@ -82,20 +86,37 @@ PHPTPL;
     /**
      * @inheritdoc
      */
-    public function getProxyCode(Definition $definition)
+    public function getProxyCode(Definition $definition): string
     {
         return '';
     }
 
     /**
+     * @phpstan-return class-string
      * @throws Exception
      */
     private function findInterface(Definition $definition): string
     {
-        return $this->resolveInterfaceFromTags($definition)
-            ?: $this->interfaceResolver->resolveInterface($definition->getClass());
+        $interface = $this->resolveInterfaceFromTags($definition);
+
+        if ($interface) {
+            return $interface;
+        }
+
+        $class = $definition->getClass();
+
+        if (!$class) {
+            throw new LogicException("Unable to resolve interface, class is missing.");
+        }
+
+        /** @phpstan-var class-string $class */
+
+        return $this->interfaceResolver->resolveInterface($class);
     }
 
+    /**
+     * @phpstan-return class-string|null
+     */
     private function resolveInterfaceFromTags(Definition $definition): ?string
     {
         $proxy = $definition->getTag('proxy');
@@ -103,6 +124,11 @@ PHPTPL;
         return $proxy[0]['interface'] ?? null;
     }
 
+    /**
+     * @phpstan-param class-string $interface
+     *
+     * @throws ReflectionException
+     */
     private function renderFactory(string $interface, string $factoryCode): string
     {
         return ($this->factoryRenderer)($interface, $factoryCode);

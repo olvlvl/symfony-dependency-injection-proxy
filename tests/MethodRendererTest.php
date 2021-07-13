@@ -23,18 +23,21 @@ use const PHP_VERSION_ID;
 /**
  * @group unit
  */
-class MethodRendererTest extends TestCase
+final class MethodRendererTest extends TestCase
 {
     /**
      * @dataProvider provideRender
      */
-    public function testRender(ReflectionMethod $method, string $getterCode, string $expected)
+    public function testRender(ReflectionMethod $method, string $getterCode, string $expected): void
     {
         $stu = new MethodRenderer();
 
         $this->assertEquals($expected, $stu($method, $getterCode));
     }
 
+    /**
+     * @return array[]
+     */
     public function provideRender(): array
     {
         $getterCode = "get()";

@@ -10,12 +10,19 @@
             "email": "olivier.laviale@gmail.com"
         }
     ],
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": ">=7.2.5",
         "ext-json": "*",
         "symfony/dependency-injection": "^5.0"
     },
     "require-dev": {
+        "jangregor/phpstan-prophecy": "^0.8.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^0.12.92",
+        "phpunit/phpunit": "^8.5",
         "symfony/config": "^5.0"
     },
     "autoload": {

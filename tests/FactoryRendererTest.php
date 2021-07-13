@@ -23,12 +23,12 @@ use const PHP_VERSION_ID;
 /**
  * @group unit
  */
-class FactoryRendererTest extends TestCase
+final class FactoryRendererTest extends TestCase
 {
     /**
      * @throws \ReflectionException
      */
-    public function testRender()
+    public function testRender(): void
     {
         $interface = Serializable::class;
         $factoryCode = 'someFactoryCode';
