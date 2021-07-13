@@ -147,7 +147,7 @@ with a container, run `make test-container-72`, `make test-container-74`, or `ma
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 [![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
-[![Code Style](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/code-style/badge.svg?branch=main)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Acode-style)
+[![Code Style](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/code-style/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Acode-style)
 
 
 
