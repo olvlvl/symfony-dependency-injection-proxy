@@ -5,8 +5,9 @@
 [![Code Quality](https://img.shields.io/scrutinizer/g/olvlvl/symfony-dependency-injection-proxy.svg)](https://scrutinizer-ci.com/g/olvlvl/symfony-dependency-injection-proxy)
 [![Code Coverage](https://img.shields.io/coveralls/olvlvl/symfony-dependency-injection-proxy.svg)](https://coveralls.io/r/olvlvl/symfony-dependency-injection-proxy)
 
-This package provides a proxy generator for [Symfony's dependency injection component][1] that generates super tiny,
-super simple proxies, especially when [compared to Symfony's default implementation][2]. Here are some differences:
+This package provides a proxy generator for [Symfony's dependency injection component][1] that
+generates super tiny, super simple proxies, especially when [compared to Symfony's default
+implementation][2]. Here are some differences:
 
 - Can proxy `final` classes.
 - Can only proxy classes with interfaces.
@@ -14,8 +15,8 @@ super simple proxies, especially when [compared to Symfony's default implementat
 - The package is ~10Kb and doesn't have dependencies, other than `symfony/dependency-injection` of course.
 - The package can be removed once the proxies have been generated.
 
-> If you're not familiar with proxy services, better have a look at [Symfony's documentation][3] before going any
-> further.
+If you're not familiar with proxy services, better have a look at [Symfony's documentation][3]
+before going any further.
 
 
 
@@ -29,9 +30,10 @@ composer require olvlvl/symfony-dependency-injection-proxy
 
 ## How it works
 
-The generator works with the following assumptions: the service we want to proxy implements an interface, and services
-using that service expect that interface, following the [dependency inversion principle][4]. Now, consider the following
-code, where an `ExceptionHandler` service requires a logger implementing `LoggerInterface`:
+The generator works with the following assumptions: the service we want to proxy implements an
+interface, and services using that service expect that interface, following the [dependency
+inversion principle][4]. Now, consider the following code, where an `ExceptionHandler` service
+requires a logger implementing `LoggerInterface`:
 
 ```php
 <?php
@@ -40,22 +42,20 @@ use Psr\Log\LoggerInterface;
 
 class ExceptionHandler
 {
-    private $logger;
-
-    public function __construct(LoggerInterface $logger)
+    public function __construct(private LoggerInterface $logger)
     {
-        $this->logger = $logger;
     }
 
     // …
 }
 ```
 
-Imagine we're using [Monolog](https://github.com/Seldaek/monolog) as logger, and we have an expansive stream to set up.
-Why waste time building the logger for every request when it's seldom used? That's when we mark our service as _lazy_.
+Imagine we're using [Monolog](https://github.com/Seldaek/monolog) as logger, and we have an
+expansive stream to set up. Why waste time building the logger for every request when it's seldom
+used? That's when we mark our service as _lazy_.
 
-The following example demonstrates how we can mark our `Psr\Log\LoggerInterface` service as lazy (we could use PHP code
-or XML just the same):
+The following example demonstrates how we can mark our `Psr\Log\LoggerInterface` service as lazy (we
+could use PHP code or XML just the same):
 
 ```yaml
 services:
@@ -75,8 +75,9 @@ services:
     # …
 ```
 
-> We don't have to define our service with a class, we could use `logger` instead of `Psr\Log\LoggerInterface` just
-> the same, except we would have to define `class` for the factory one.
+**Note:** We don't have to define our service with a class, we could use `logger` instead of
+`Psr\Log\LoggerInterface` just > the same, except we would have to define `class` for the factory
+one.
 
 Now let's see how to build our container.
 
@@ -116,8 +117,9 @@ There you have it. We can use our container as usual and everything is awesome.
 
 ### What if my lazy service implements multiple interfaces?
 
-The basic interface resolver will have a hard time figuring out which interface to implement if a service implements
-many. For instance, if a service was an instance of `ArrayObject` the following exception would be thrown:
+The basic interface resolver will have a hard time figuring out which interface to implement if a
+service implements many. For instance, if a service was an instance of `ArrayObject` the following
+exception would be thrown:
 
 ```
 Don't know which interface to choose from for ArrayObject: IteratorAggregate, Traversable, ArrayAccess, Serializable, Countable.
@@ -138,7 +140,7 @@ ArrayObject:
 
 ## Continuous Integration
 
-The project is continuously tested by [GitHub actions](https://github.com/olvlvl/event-dispatcher/actions).
+The project is continuously tested by [GitHub actions](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions).
 
 [![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
 [![Static Analysis](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/static-analysis/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Astatic-analysis)
@@ -148,8 +150,8 @@ The project is continuously tested by [GitHub actions](https://github.com/olvlvl
 
 ## Code of Conduct
 
-This project adheres to a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project and its
-community, you are expected to uphold this code.
+This project adheres to a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in
+this project and its community, you are expected to uphold this code.
 
 
 

@@ -20,6 +20,7 @@ use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
@@ -27,6 +28,8 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 final class ProxyDumperTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider provideIsProxyCandidate
      */
@@ -40,9 +43,7 @@ final class ProxyDumperTest extends TestCase
         $this->assertSame($expected, $stu->isProxyCandidate($definition));
     }
 
-    /**
-     * @return array[]
-     */
+    // @phpstan-ignore-next-line
     public function provideIsProxyCandidate(): array
     {
         $factory = 'aFactory';
@@ -89,7 +90,7 @@ final class ProxyDumperTest extends TestCase
     {
         $definition = (new Definition())
             ->setClass($class = ArrayIterator::class)
-            ->setPrivate($private)
+            ->setPublic(!$private)
             ->setShared($shared);
         $interfaceResolver = $this->prophesize(InterfaceResolver::class);
         $interfaceResolver->resolveInterface($class)
@@ -105,7 +106,7 @@ final class ProxyDumperTest extends TestCase
 
         $expected = <<<PHPTPL
         if (\$lazyLoad) {
-            return {$expectedStore}$proxyFactoryCode
+            return $expectedStore$proxyFactoryCode
         }
 
 
@@ -114,9 +115,7 @@ PHPTPL;
         $this->assertEquals($expected, $stu->getProxyFactoryCode($definition, $id, $factoryCode));
     }
 
-    /**
-     * @return array[]
-     */
+    // @phpstan-ignore-next-line
     public function provideGetProxyFactoryCode(): array
     {
         $id = 'aServiceId';

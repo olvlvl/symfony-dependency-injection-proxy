@@ -23,8 +23,6 @@ use function assert;
 use function implode;
 use function json_encode;
 
-use const PHP_VERSION_ID;
-
 class MethodRenderer
 {
     public function __invoke(ReflectionMethod $method, string $getterCode): string
@@ -107,7 +105,7 @@ PHPTPL;
 
     private function renderType(ReflectionType $type): string
     {
-        if (PHP_VERSION_ID >= 80000 && $type instanceof ReflectionUnionType) {
+        if ($type instanceof ReflectionUnionType) {
             return implode('|', array_map(function (ReflectionNamedType $namedType) {
                 return $namedType->getName();
             }, $type->getTypes()));
@@ -124,7 +122,7 @@ PHPTPL;
     {
         $type = $method->getReturnType();
 
-        if (PHP_VERSION_ID >= 80000 && $type instanceof ReflectionUnionType) {
+        if ($type instanceof ReflectionUnionType) {
             return true;
         }
 

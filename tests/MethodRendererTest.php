@@ -18,8 +18,6 @@ use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodR
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer72;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer80;
 
-use const PHP_VERSION_ID;
-
 /**
  * @group unit
  */
@@ -35,23 +33,27 @@ final class MethodRendererTest extends TestCase
         $this->assertEquals($expected, $stu($method, $getterCode));
     }
 
-    /**
-     * @return array[]
-     */
+    // @phpstan-ignore-next-line
     public function provideRender(): array
     {
         $getterCode = "get()";
-        $reflectionFor = function (string $method) {
-            return new ReflectionMethod(SampleInterfaceForMethodRenderer70::class, $method);
-        };
-        $reflectionFor72 = function (string $method) {
-            return new ReflectionMethod(SampleInterfaceForMethodRenderer72::class, $method);
-        };
+        $reflectionFor70 = fn(string $method) => new ReflectionMethod(
+            SampleInterfaceForMethodRenderer70::class,
+            $method
+        );
+        $reflectionFor72 = fn(string $method) => new ReflectionMethod(
+            SampleInterfaceForMethodRenderer72::class,
+            $method
+        );
+        $reflectionFor80 = fn(string $method) => new ReflectionMethod(
+            SampleInterfaceForMethodRenderer80::class,
+            $method
+        );
 
         $cases = [
 
             [
-                $reflectionFor('aStaticMethodWithoutParametersOrReturnType'),
+                $reflectionFor70('aStaticMethodWithoutParametersOrReturnType'),
                 $getterCode,
                 <<<PHPTPL
                 public static function aStaticMethodWithoutParametersOrReturnType()
@@ -62,7 +64,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithoutParametersOrReturnType'),
+                $reflectionFor70('aMethodWithoutParametersOrReturnType'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithoutParametersOrReturnType()
@@ -73,7 +75,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithoutParametersButABuiltInReturnType'),
+                $reflectionFor70('aMethodWithoutParametersButABuiltInReturnType'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithoutParametersButABuiltInReturnType(): array
@@ -84,7 +86,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithoutParametersButABuiltInReturnTypeNullable'),
+                $reflectionFor70('aMethodWithoutParametersButABuiltInReturnTypeNullable'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithoutParametersButABuiltInReturnTypeNullable(): ?array
@@ -95,7 +97,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithoutParametersButANonBuiltInReturnType'),
+                $reflectionFor70('aMethodWithoutParametersButANonBuiltInReturnType'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithoutParametersButANonBuiltInReturnType(): \ArrayAccess
@@ -106,7 +108,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithoutParametersButANonBuiltInReturnTypeNullable'),
+                $reflectionFor70('aMethodWithoutParametersButANonBuiltInReturnTypeNullable'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithoutParametersButANonBuiltInReturnTypeNullable(): ?\ArrayAccess
@@ -117,7 +119,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithParameters1'),
+                $reflectionFor70('aMethodWithParameters1'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithParameters1(\$a, bool \$b, ?int \$c, \$d = null)
@@ -128,7 +130,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithParameters2'),
+                $reflectionFor70('aMethodWithParameters2'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithParameters2(\ArrayAccess \$a, ?\ArrayAccess \$b, ?\ArrayAccess \$c = null)
@@ -139,7 +141,7 @@ PHPTPL
             ],
 
             [
-                $reflectionFor('aMethodWithParameters3'),
+                $reflectionFor70('aMethodWithParameters3'),
                 $getterCode,
                 <<<PHPTPL
                 public function aMethodWithParameters3(\$a = 123, \$b = "abc", \$c = "aConstantValue")
@@ -173,14 +175,7 @@ PHPTPL
 PHPTPL
             ],
 
-        ];
-
-        if (PHP_VERSION_ID >= 80000) {
-            $reflectionFor80 = function (string $method) {
-                return new ReflectionMethod(SampleInterfaceForMethodRenderer80::class, $method);
-            };
-
-            $cases["aMethodWithMixed"] = [
+            "a method with mixed" => [
                 $reflectionFor80('aMethodWithMixed'),
                 $getterCode,
                 <<<PHPTPL
@@ -189,9 +184,9 @@ PHPTPL
                     return {$getterCode}->aMethodWithMixed(\$a);
                 }
 PHPTPL
-            ];
+            ],
 
-            $cases["aMethodWithUnionTypes"] = [
+            "a method with union types" => [
                 $reflectionFor80('aMethodWithUnionTypes'),
                 $getterCode,
                 <<<PHPTPL
@@ -200,8 +195,9 @@ PHPTPL
                     return {$getterCode}->aMethodWithUnionTypes(\$a);
                 }
 PHPTPL
-            ];
-        }
+            ],
+
+        ];
 
         return $cases;
     }

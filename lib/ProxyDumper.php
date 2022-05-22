@@ -11,13 +11,13 @@
 
 namespace olvlvl\SymfonyDependencyInjectionProxy;
 
-use Exception;
 use InvalidArgumentException;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
 use ReflectionException;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\DumperInterface;
+use Throwable;
 
 use function class_exists;
 use function ltrim;
@@ -25,18 +25,13 @@ use function sprintf;
 
 final class ProxyDumper implements DumperInterface
 {
-    /**
-     * @var InterfaceResolver
-     */
-    private $interfaceResolver;
+    private InterfaceResolver $interfaceResolver;
+    private FactoryRenderer $factoryRenderer;
 
-    /**
-     * @var FactoryRenderer
-     */
-    private $factoryRenderer;
-
-    public function __construct(InterfaceResolver $interfaceResolver = null, FactoryRenderer $factoryRenderer = null)
-    {
+    public function __construct(
+        InterfaceResolver $interfaceResolver = null,
+        FactoryRenderer $factoryRenderer = null
+    ) {
         $this->interfaceResolver = $interfaceResolver ?? new BasicInterfaceResolver();
         $this->factoryRenderer = $factoryRenderer ?? new FactoryRenderer(new MethodRenderer());
     }
@@ -53,7 +48,7 @@ final class ProxyDumper implements DumperInterface
 
     /**
      * @inheritdoc
-     * @throws Exception
+     * @throws Throwable
      */
     public function getProxyFactoryCode(Definition $definition, string $id, string $factoryCode): string
     {
@@ -76,7 +71,7 @@ final class ProxyDumper implements DumperInterface
 
         return <<<PHPTPL
         if (\$lazyLoad) {
-            return {$store}$proxy
+            return $store$proxy
         }
 
 
@@ -92,8 +87,9 @@ PHPTPL;
     }
 
     /**
-     * @phpstan-return class-string
-     * @throws Exception
+     * @return class-string
+     *
+     * @throws Throwable
      */
     private function findInterface(Definition $definition): string
     {
@@ -109,13 +105,13 @@ PHPTPL;
             throw new LogicException("Unable to resolve interface, class is missing.");
         }
 
-        /** @phpstan-var class-string $class */
+        /** @var class-string $class */
 
         return $this->interfaceResolver->resolveInterface($class);
     }
 
     /**
-     * @phpstan-return class-string|null
+     * @return class-string|null
      */
     private function resolveInterfaceFromTags(Definition $definition): ?string
     {
@@ -125,7 +121,7 @@ PHPTPL;
     }
 
     /**
-     * @phpstan-param class-string $interface
+     * @param class-string $interface
      *
      * @throws ReflectionException
      */

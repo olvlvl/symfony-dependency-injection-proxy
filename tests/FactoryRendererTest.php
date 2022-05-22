@@ -15,18 +15,20 @@ use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
+use ReflectionException;
 use ReflectionMethod;
 use Serializable;
-
-use const PHP_VERSION_ID;
 
 /**
  * @group unit
  */
 final class FactoryRendererTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testRender(): void
     {
@@ -35,13 +37,9 @@ final class FactoryRendererTest extends TestCase
         $methodRenderer = $this->prophesize(MethodRenderer::class);
         $methodRenderer->__invoke(
             Argument::type(ReflectionMethod::class),
-            PHP_VERSION_ID >= 70400
-                ? '($this->service ??= ($this->factory)())'
-                : '($this->service ?: $this->service = ($this->factory)())'
+            '($this->service ??= ($this->factory)())'
         )->will(
-            function (array $args) {
-                return '                codeFor:' . $args[0]->getName();
-            }
+            fn(array $args) => '                codeFor:' . $args[0]->getName()
         );
 
         $stu = new FactoryRenderer($methodRenderer->reveal());
@@ -52,11 +50,11 @@ final class FactoryRendererTest extends TestCase
                 }
             ) implements \\$interface
             {
-                private \$factory, \$service;
+                private \$service;
 
-                public function __construct(callable \$factory)
-                {
-                    \$this->factory = \$factory;
+                public function __construct(
+                    private \Closure \$factory
+                ) {
                 }
 
                 codeFor:serialize

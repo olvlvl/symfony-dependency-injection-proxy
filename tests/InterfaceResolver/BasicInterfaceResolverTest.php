@@ -14,10 +14,10 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use ArrayIterator;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Exception;
 use LogicException;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * @group unit
@@ -26,7 +26,7 @@ final class BasicInterfaceResolverTest extends TestCase
 {
     /**
      * @test
-     * @throws Exception
+     * @throws Throwable
      */
     public function shouldFailIfClassImplementsManyInterfaces(): void
     {
@@ -34,14 +34,14 @@ final class BasicInterfaceResolverTest extends TestCase
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches(
-            "/Don't know which interface to choose from for ArrayIterator: Iterator,/"
+            "/Don't know which interface to choose from for ArrayIterator:.*Iterator/"
         );
         $stu->resolveInterface(ArrayIterator::class);
     }
 
     /**
      * @test
-     * @throws Exception
+     * @throws Throwable
      */
     public function shouldFailIfClassDoesNotExist(): void
     {
@@ -57,9 +57,9 @@ final class BasicInterfaceResolverTest extends TestCase
     /**
      * @dataProvider provideResolveInterface
      *
-     * @phpstan-param class-string $class
+     * @param class-string $class
      *
-     * @throws Exception
+     * @throws Throwable
      */
     public function testResolveInterface(string $class, string $expected): void
     {
@@ -67,9 +67,7 @@ final class BasicInterfaceResolverTest extends TestCase
         $this->assertSame($expected, $stu->resolveInterface($class));
     }
 
-    /**
-     * @return array[]
-     */
+    // @phpstan-ignore-next-line
     public function provideResolveInterface(): array
     {
         return [

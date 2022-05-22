@@ -32,7 +32,7 @@ use function uniqid;
 /**
  * @group integration
  */
-class IntegrationTest extends TestCase
+final class IntegrationTest extends TestCase
 {
     /**
      * @dataProvider provideDefinition
@@ -63,9 +63,7 @@ class IntegrationTest extends TestCase
         $assert(new $containerClass());
     }
 
-    /**
-     * @return array[]
-     */
+    // @phpstan-ignore-next-line
     public function provideDefinition(): array
     {
         $alias = 'alias-' . uniqid();
@@ -81,7 +79,7 @@ class IntegrationTest extends TestCase
                         ->addArgument($value = uniqid()),
                 ],
                 function (ContainerInterface $container) use ($id, $value) {
-                    /* @var SampleInterface $service */
+                    /** @var SampleInterface $service */
                     $service = $container->get($id);
                     $this->assertSame($service, $container->get($id));
 
@@ -103,7 +101,7 @@ class IntegrationTest extends TestCase
                         ->addTag('proxy', ['interface' => SampleInterface2::class]),
                 ],
                 function (ContainerInterface $container) use ($id, $value2) {
-                    /* @var SampleInterface2 $service */
+                    /** @var SampleInterface2 $service */
                     $service = $container->get($id);
                     $this->assertSame($service, $container->get($id));
 
@@ -127,7 +125,7 @@ class IntegrationTest extends TestCase
                         ->addArgument($factoryName = 'factory-' . uniqid()),
                 ],
                 function (ContainerInterface $container) use ($id, $factoryName) {
-                    /* @var BuildableInterface $service */
+                    /** @var BuildableInterface $service */
                     $service = $container->get($id);
                     $this->assertSame($service, $container->get($id));
 
@@ -147,7 +145,7 @@ class IntegrationTest extends TestCase
                         ->addArgument($value = uniqid()),
                 ],
                 function (ContainerInterface $container) use ($id, $alias, $value) {
-                    /* @var SampleInterface $service */
+                    /** @var SampleInterface $service */
                     $service = $container->get($alias);
                     $this->assertSame($service, $container->get($alias));
                     $this->assertSame($service, $container->get($id));
@@ -172,7 +170,7 @@ class IntegrationTest extends TestCase
                         ->addArgument($value = uniqid()),
                 ],
                 function (ContainerInterface $container) use ($alias, $value) {
-                    /* @var SampleInterface $service */
+                    /** @var SampleInterface $service */
                     $service = $container->get($alias);
                     $this->assertSame($service, $container->get($alias));
 

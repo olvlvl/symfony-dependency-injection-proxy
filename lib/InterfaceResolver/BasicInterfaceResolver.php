@@ -33,7 +33,7 @@ final class BasicInterfaceResolver implements InterfaceResolver
         }
 
         if (class_exists($class)) {
-            /** @phpstan-var class-string[]|false $interfaces */
+            /** @var class-string[]|false $interfaces */
             $interfaces = class_implements($class);
 
             if ($interfaces) {

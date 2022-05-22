@@ -18,18 +18,11 @@ use ReflectionMethod;
 use function array_map;
 use function implode;
 
-use const PHP_VERSION_ID;
-
 class FactoryRenderer
 {
-    /**
-     * @var MethodRenderer
-     */
-    private $methodRenderer;
-
-    public function __construct(MethodRenderer $methodRenderer)
-    {
-        $this->methodRenderer = $methodRenderer;
+    public function __construct(
+        private MethodRenderer $methodRenderer
+    ) {
     }
 
     /**
@@ -39,12 +32,7 @@ class FactoryRenderer
      */
     public function __invoke(string $interface, string $factoryCode): string
     {
-        $methods = $this->renderMethods(
-            (new ReflectionClass($interface))->getMethods(),
-            PHP_VERSION_ID >= 70400
-                ? '($this->service ??= ($this->factory)())'
-                : '($this->service ?: $this->service = ($this->factory)())'
-        );
+        $methods = $this->renderMethods((new ReflectionClass($interface))->getMethods());
 
         return <<<PHPTPL
             new class(
@@ -53,11 +41,11 @@ class FactoryRenderer
                 }
             ) implements \\$interface
             {
-                private \$factory, \$service;
+                private \$service;
 
-                public function __construct(callable \$factory)
-                {
-                    \$this->factory = \$factory;
+                public function __construct(
+                    private \Closure \$factory
+                ) {
                 }
 
 $methods
@@ -68,16 +56,17 @@ PHPTPL;
     /**
      * @param ReflectionMethod[] $methods
      */
-    private function renderMethods(array $methods, string $getterCode): string
+    private function renderMethods(array $methods): string
     {
         $renderMethod = $this->methodRenderer;
 
         return implode(
             "\n",
             array_map(
-                function (ReflectionMethod $method) use ($renderMethod, $getterCode) {
-                    return $renderMethod($method, $getterCode);
-                },
+                fn(ReflectionMethod $method) => $renderMethod(
+                    $method,
+                    '($this->service ??= ($this->factory)())'
+                ),
                 $methods
             )
         );
