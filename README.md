@@ -142,9 +142,9 @@ ArrayObject:
 
 The project is continuously tested by [GitHub actions](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions).
 
-[![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
-[![Static Analysis](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/static-analysis/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Astatic-analysis)
-[![Code Style](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/code-style/badge.svg?branch=master)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Acode-style)
+[![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=main)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
+[![Static Analysis](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/static-analysis/badge.svg?branch=main)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Astatic-analysis)
+[![Code Style](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/code-style/badge.svg?branch=main)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Acode-style)
 
 
 
