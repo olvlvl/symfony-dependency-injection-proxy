@@ -21,4 +21,4 @@ N/A
 
 ### Other Changes
 
-N/A
+- Drop Prophecy

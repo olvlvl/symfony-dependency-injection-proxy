@@ -13,9 +13,8 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 
 use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use ReflectionException;
 use ReflectionMethod;
 use Serializable;
@@ -25,8 +24,6 @@ use Serializable;
  */
 final class FactoryRendererTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @throws ReflectionException
      */
@@ -34,15 +31,17 @@ final class FactoryRendererTest extends TestCase
     {
         $interface = Serializable::class;
         $factoryCode = 'someFactoryCode';
-        $methodRenderer = $this->prophesize(MethodRenderer::class);
-        $methodRenderer->__invoke(
-            Argument::type(ReflectionMethod::class),
-            '($this->service ??= ($this->factory)())'
-        )->will(
-            fn(array $args) => '                codeFor:' . $args[0]->getName()
-        );
+        $methodRenderer = $this->createMock(MethodRenderer::class);
+        $methodRenderer
+            ->method('__invoke')
+            ->with(
+                Assert::isInstanceOf(ReflectionMethod::class),
+                '($this->service ??= ($this->factory)())'
+            )->willReturnCallback(
+                fn(ReflectionMethod $method): string => '                codeFor:' . $method->getName()
+            );
 
-        $stu = new FactoryRenderer($methodRenderer->reveal());
+        $stu = new FactoryRenderer($methodRenderer);
         $expected = <<<PHPTPL
             new class(
                 function () {

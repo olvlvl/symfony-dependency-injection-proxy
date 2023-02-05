@@ -14,30 +14,27 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
-use Exception;
 use InvalidArgumentException;
 use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\DependencyInjection\Definition;
+use Throwable;
 
 /**
  * @group unit
  */
 final class ProxyDumperTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @dataProvider provideIsProxyCandidate
      */
     public function testIsProxyCandidate(Definition $definition, bool $expected): void
     {
         $stu = new ProxyDumper(
-            $this->prophesize(InterfaceResolver::class)->reveal(),
-            $this->prophesize(FactoryRenderer::class)->reveal()
+            $this->createMock(InterfaceResolver::class),
+            $this->createMock(FactoryRenderer::class)
         );
 
         $this->assertSame($expected, $stu->isProxyCandidate($definition));
@@ -68,13 +65,13 @@ final class ProxyDumperTest extends TestCase
 
     /**
      * @test
-     * @throws Exception
+     * @throws Throwable
      */
     public function shouldFailIfFactoryCodeIsEmpty(): void
     {
         $stu = new ProxyDumper(
-            $this->prophesize(InterfaceResolver::class)->reveal(),
-            $this->prophesize(FactoryRenderer::class)->reveal()
+            $this->createMock(InterfaceResolver::class),
+            $this->createMock(FactoryRenderer::class)
         );
 
         $this->expectException(InvalidArgumentException::class);
@@ -83,7 +80,7 @@ final class ProxyDumperTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws Throwable
      * @dataProvider provideGetProxyFactoryCode
      */
     public function testGetProxyFactoryCode(string $id, bool $private, bool $shared, string $expectedStore): void
@@ -92,16 +89,20 @@ final class ProxyDumperTest extends TestCase
             ->setClass($class = ArrayIterator::class)
             ->setPublic(!$private)
             ->setShared($shared);
-        $interfaceResolver = $this->prophesize(InterfaceResolver::class);
-        $interfaceResolver->resolveInterface($class)
+        $interfaceResolver = $this->createMock(InterfaceResolver::class);
+        $interfaceResolver
+            ->method('resolveInterface')
+            ->with($class)
             ->willReturn($interface = ArrayAccess::class);
-        $factoryRenderer = $this->prophesize(FactoryRenderer::class);
-        $factoryRenderer->__invoke($interface, $factoryCode = 'someFactoryCode')
+        $factoryRenderer = $this->createMock(FactoryRenderer::class);
+        $factoryRenderer
+            ->method('__invoke')
+            ->with($interface, $factoryCode = 'someFactoryCode')
             ->willReturn($proxyFactoryCode = 'someProxyFactoryCode');
 
         $stu = new ProxyDumper(
-            $interfaceResolver->reveal(),
-            $factoryRenderer->reveal()
+            $interfaceResolver,
+            $factoryRenderer
         );
 
         $expected = <<<PHPTPL
@@ -136,8 +137,8 @@ PHPTPL;
     public function testGetProxyCode(): void
     {
         $stu = new ProxyDumper(
-            $this->prophesize(InterfaceResolver::class)->reveal(),
-            $this->prophesize(FactoryRenderer::class)->reveal()
+            $this->createMock(InterfaceResolver::class),
+            $this->createMock(FactoryRenderer::class)
         );
 
         $proxyCode = $stu->getProxyCode(new Definition());

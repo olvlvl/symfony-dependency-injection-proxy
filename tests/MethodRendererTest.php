@@ -50,7 +50,7 @@ final class MethodRendererTest extends TestCase
             $method
         );
 
-        $cases = [
+        return [
 
             [
                 $reflectionFor70('aStaticMethodWithoutParametersOrReturnType'),
@@ -198,7 +198,5 @@ PHPTPL
             ],
 
         ];
-
-        return $cases;
     }
 }

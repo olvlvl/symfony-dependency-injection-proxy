@@ -13,10 +13,7 @@
         }
     ],
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "phpstan/extension-installer": true
-        }
+        "sort-packages": true
     },
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -27,9 +24,6 @@
         "symfony/dependency-injection": "^6.0"
     },
     "require-dev": {
-        "jangregor/phpstan-prophecy": "^1.0",
-        "phpspec/prophecy-phpunit": "^2.0",
-        "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.6",
         "phpunit/phpunit": "^9.5",
         "symfony/config": "^6.0"
