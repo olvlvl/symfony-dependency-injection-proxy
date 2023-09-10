@@ -21,7 +21,7 @@ use function implode;
 class FactoryRenderer
 {
     public function __construct(
-        private MethodRenderer $methodRenderer
+        private readonly MethodRenderer $methodRenderer
     ) {
     }
 
@@ -36,16 +36,13 @@ class FactoryRenderer
 
         return <<<PHPTPL
             new class(
-                function () {
-                    return $factoryCode;
-                }
+                static fn () => $factoryCode
             ) implements \\$interface
             {
                 private \$service;
 
-                public function __construct(
-                    private \Closure \$factory
-                ) {
+                public function __construct(private \Closure \$factory)
+                {
                 }
 
 $methods

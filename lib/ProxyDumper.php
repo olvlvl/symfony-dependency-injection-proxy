@@ -25,15 +25,10 @@ use function sprintf;
 
 final class ProxyDumper implements DumperInterface
 {
-    private InterfaceResolver $interfaceResolver;
-    private FactoryRenderer $factoryRenderer;
-
     public function __construct(
-        InterfaceResolver $interfaceResolver = null,
-        FactoryRenderer $factoryRenderer = null
+        private readonly InterfaceResolver $interfaceResolver = new BasicInterfaceResolver(),
+        private readonly FactoryRenderer $factoryRenderer = new FactoryRenderer(new MethodRenderer()),
     ) {
-        $this->interfaceResolver = $interfaceResolver ?? new BasicInterfaceResolver();
-        $this->factoryRenderer = $factoryRenderer ?? new FactoryRenderer(new MethodRenderer());
     }
 
     /**
@@ -60,7 +55,7 @@ final class ProxyDumper implements DumperInterface
 
         if ($definition->isShared()) {
             $store = sprintf(
-                '$this->%s[\'%s\'] = ',
+                '$container->%s[\'%s\'] = ',
                 $definition->isPublic() && !$definition->isPrivate() ? 'services' : 'privates',
                 $id
             );

@@ -12,7 +12,7 @@ implementation][2]. Here are some differences:
 - Can proxy `final` classes.
 - Can only proxy classes with interfaces.
 - The generated proxies are self-contained.
-- The package is ~10Kb and doesn't have dependencies, other than `symfony/dependency-injection` of course.
+- The package is ~10Kb and doesn't have dependencies.
 - The package can be removed once the proxies have been generated.
 
 If you're not familiar with proxy services, better have a look at [Symfony's documentation][3]

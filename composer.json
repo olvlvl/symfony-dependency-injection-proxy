@@ -19,14 +19,14 @@
 	"prefer-stable": true,
 	"prefer-dist": true,
     "require": {
-        "php": ">=8.0.2",
+        "php": ">=8.1",
         "ext-json": "*",
-        "symfony/dependency-injection": ">=6.0 <6.3"
+        "symfony/dependency-injection": "^6.3"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.6",
-        "phpunit/phpunit": "^9.5",
-        "symfony/config": "^6.0"
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.3",
+        "symfony/config": "^6.3"
     },
     "autoload": {
         "psr-4": {

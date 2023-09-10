@@ -60,11 +60,11 @@ final class IntegrationTest extends TestCase
 
         require $containerFile;
 
-        $assert(new $containerClass());
+        $assert($this, new $containerClass());
     }
 
     // @phpstan-ignore-next-line
-    public function provideDefinition(): array
+    public static function provideDefinition(): array
     {
         $alias = 'alias-' . uniqid();
 
@@ -78,15 +78,15 @@ final class IntegrationTest extends TestCase
                         ->setPublic(true)
                         ->addArgument($value = uniqid()),
                 ],
-                function (ContainerInterface $container) use ($id, $value) {
+                function (self $test, ContainerInterface $container) use ($id, $value) {
                     /** @var SampleInterface $service */
                     $service = $container->get($id);
-                    $this->assertSame($service, $container->get($id));
+                    $test->assertSame($service, $container->get($id));
 
-                    $this->assertInstanceOf(SampleInterface::class, $service);
-                    $this->assertNotInstanceOf(Sample::class, $service);
+                    $test->assertInstanceOf(SampleInterface::class, $service);
+                    $test->assertNotInstanceOf(Sample::class, $service);
 
-                    $this->assertSame($value, $service->getValue());
+                    $test->assertSame($value, $service->getValue());
                 },
             ],
 
@@ -100,15 +100,15 @@ final class IntegrationTest extends TestCase
                         ->addArgument($value2 = uniqid())
                         ->addTag('proxy', ['interface' => SampleInterface2::class]),
                 ],
-                function (ContainerInterface $container) use ($id, $value2) {
+                function (self $test, ContainerInterface $container) use ($id, $value2) {
                     /** @var SampleInterface2 $service */
                     $service = $container->get($id);
-                    $this->assertSame($service, $container->get($id));
+                    $test->assertSame($service, $container->get($id));
 
-                    $this->assertInstanceOf(SampleInterface2::class, $service);
-                    $this->assertNotInstanceOf(Sample2::class, $service);
+                    $test->assertInstanceOf(SampleInterface2::class, $service);
+                    $test->assertNotInstanceOf(Sample2::class, $service);
 
-                    $this->assertSame($value2, $service->getValue2());
+                    $test->assertSame($value2, $service->getValue2());
                 },
             ],
 
@@ -124,15 +124,15 @@ final class IntegrationTest extends TestCase
                         ->setClass(BuildableFactory::class)
                         ->addArgument($factoryName = 'factory-' . uniqid()),
                 ],
-                function (ContainerInterface $container) use ($id, $factoryName) {
+                function (self $test, ContainerInterface $container) use ($id, $factoryName) {
                     /** @var BuildableInterface $service */
                     $service = $container->get($id);
-                    $this->assertSame($service, $container->get($id));
+                    $test->assertSame($service, $container->get($id));
 
-                    $this->assertInstanceOf(BuildableInterface::class, $service);
-                    $this->assertNotInstanceOf(Buildable::class, $service);
+                    $test->assertInstanceOf(BuildableInterface::class, $service);
+                    $test->assertNotInstanceOf(Buildable::class, $service);
 
-                    $this->assertSame($factoryName, $service->getFactory());
+                    $test->assertSame($factoryName, $service->getFactory());
                 },
             ],
 
@@ -144,17 +144,17 @@ final class IntegrationTest extends TestCase
                         ->setPublic(true)
                         ->addArgument($value = uniqid()),
                 ],
-                function (ContainerInterface $container) use ($id, $alias, $value) {
+                function (self $test, ContainerInterface $container) use ($id, $alias, $value) {
                     /** @var SampleInterface $service */
                     $service = $container->get($alias);
-                    $this->assertSame($service, $container->get($alias));
-                    $this->assertSame($service, $container->get($id));
+                    $test->assertSame($service, $container->get($alias));
+                    $test->assertSame($service, $container->get($id));
 
-                    $this->assertInstanceOf(SampleInterface::class, $service);
-                    $this->assertNotInstanceOf(Sample::class, $service);
+                    $test->assertInstanceOf(SampleInterface::class, $service);
+                    $test->assertNotInstanceOf(Sample::class, $service);
 
-                    $this->assertSame($value, $service->getValue());
-                    $this->assertSame($service, $container->get($id));
+                    $test->assertSame($value, $service->getValue());
+                    $test->assertSame($service, $container->get($id));
                 },
                 function (ContainerBuilder $builder) use ($id, $alias) {
                     $builder->addAliases([ $alias => new Alias($id, true) ]);
@@ -169,15 +169,15 @@ final class IntegrationTest extends TestCase
                         ->setPublic(false)
                         ->addArgument($value = uniqid()),
                 ],
-                function (ContainerInterface $container) use ($alias, $value) {
+                function (self $test, ContainerInterface $container) use ($alias, $value) {
                     /** @var SampleInterface $service */
                     $service = $container->get($alias);
-                    $this->assertSame($service, $container->get($alias));
+                    $test->assertSame($service, $container->get($alias));
 
-                    $this->assertInstanceOf(SampleInterface::class, $service);
-                    $this->assertNotInstanceOf(Sample::class, $service);
+                    $test->assertInstanceOf(SampleInterface::class, $service);
+                    $test->assertNotInstanceOf(Sample::class, $service);
 
-                    $this->assertSame($value, $service->getValue());
+                    $test->assertSame($value, $service->getValue());
                 },
                 function (ContainerBuilder $builder) use ($id, $alias) {
                     $builder->addAliases([ $alias => new Alias($id, true) ]);

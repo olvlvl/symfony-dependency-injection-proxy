@@ -34,7 +34,7 @@ final class MethodRendererTest extends TestCase
     }
 
     // @phpstan-ignore-next-line
-    public function provideRender(): array
+    public static function provideRender(): array
     {
         $getterCode = "get()";
         $reflectionFor70 = fn(string $method) => new ReflectionMethod(

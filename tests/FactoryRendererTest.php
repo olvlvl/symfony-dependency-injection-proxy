@@ -15,7 +15,6 @@ use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
 use ReflectionMethod;
 use Serializable;
 
@@ -24,9 +23,6 @@ use Serializable;
  */
 final class FactoryRendererTest extends TestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testRender(): void
     {
         $interface = Serializable::class;
@@ -44,16 +40,13 @@ final class FactoryRendererTest extends TestCase
         $stu = new FactoryRenderer($methodRenderer);
         $expected = <<<PHPTPL
             new class(
-                function () {
-                    return $factoryCode;
-                }
+                static fn () => $factoryCode
             ) implements \\$interface
             {
                 private \$service;
 
-                public function __construct(
-                    private \Closure \$factory
-                ) {
+                public function __construct(private \Closure \$factory)
+                {
                 }
 
                 codeFor:serialize

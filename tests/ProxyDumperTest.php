@@ -41,7 +41,7 @@ final class ProxyDumperTest extends TestCase
     }
 
     // @phpstan-ignore-next-line
-    public function provideIsProxyCandidate(): array
+    public static function provideIsProxyCandidate(): array
     {
         $factory = 'aFactory';
         $class = ArrayObject::class;
@@ -117,14 +117,14 @@ PHPTPL;
     }
 
     // @phpstan-ignore-next-line
-    public function provideGetProxyFactoryCode(): array
+    public static function provideGetProxyFactoryCode(): array
     {
         $id = 'aServiceId';
 
         return [
 
-            [ $id, false, true, "\$this->services['$id'] = " ],
-            [ $id, true, true, "\$this->privates['$id'] = " ],
+            [ $id, false, true, "\$container->services['$id'] = " ],
+            [ $id, true, true, "\$container->privates['$id'] = " ],
             [ $id, false, false, "" ],
             [ $id, true, false, "" ],
 

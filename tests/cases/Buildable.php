@@ -2,7 +2,7 @@
 
 namespace tests\olvlvl\SymfonyDependencyInjectionProxy\cases;
 
-class Buildable
+class Buildable implements BuildableInterface
 {
     /**
      * @var string

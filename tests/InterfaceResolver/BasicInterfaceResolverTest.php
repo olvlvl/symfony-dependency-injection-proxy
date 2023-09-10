@@ -68,7 +68,7 @@ final class BasicInterfaceResolverTest extends TestCase
     }
 
     // @phpstan-ignore-next-line
-    public function provideResolveInterface(): array
+    public static function provideResolveInterface(): array
     {
         return [
 
