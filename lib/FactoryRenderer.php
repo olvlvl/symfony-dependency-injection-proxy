@@ -18,7 +18,7 @@ use ReflectionMethod;
 use function array_map;
 use function implode;
 
-class FactoryRenderer
+class FactoryRenderer // Cannot be made readyonly because of test-double
 {
     public function __construct(
         private readonly MethodRenderer $methodRenderer

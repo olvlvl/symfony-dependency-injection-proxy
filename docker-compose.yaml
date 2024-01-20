@@ -1,16 +1,6 @@
 ---
 version: "3.2"
 services:
-  app81:
-    build:
-      context: .
-      args:
-        PHP_VERSION: "8.1"
-    environment:
-      PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
-    volumes:
-    - .:/app:delegated
-    - ~/.composer:/root/.composer:delegated
   app82:
     build:
       context: .

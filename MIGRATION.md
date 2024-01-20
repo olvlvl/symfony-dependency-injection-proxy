@@ -1,5 +1,30 @@
 # Migration
 
+## v5.x to v6.0
+
+### New requirements
+
+- Requires PHP v8.2+
+- Requires `symfony/dependency-injection` v7.0+
+
+### New features
+
+N/A
+
+### Backward Incompatible Changes
+
+N/A
+
+### Deprecated Features
+
+N/A
+
+### Other Changes
+
+N/A
+
+
+
 ## v4.x to v5.0
 
 ### New requirements

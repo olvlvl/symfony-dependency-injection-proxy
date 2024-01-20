@@ -23,18 +23,18 @@ use function class_exists;
 use function ltrim;
 use function sprintf;
 
-final class ProxyDumper implements DumperInterface
+final readonly class ProxyDumper implements DumperInterface
 {
     public function __construct(
-        private readonly InterfaceResolver $interfaceResolver = new BasicInterfaceResolver(),
-        private readonly FactoryRenderer $factoryRenderer = new FactoryRenderer(new MethodRenderer()),
+        private InterfaceResolver $interfaceResolver = new BasicInterfaceResolver(),
+        private FactoryRenderer $factoryRenderer = new FactoryRenderer(new MethodRenderer()),
     ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function isProxyCandidate(Definition $definition): bool
+    public function isProxyCandidate(Definition $definition, bool &$asGhostObject = null, string $id = null): bool
     {
         $class = $definition->getClass();
 
@@ -76,7 +76,7 @@ PHPTPL;
     /**
      * @inheritdoc
      */
-    public function getProxyCode(Definition $definition): string
+    public function getProxyCode(Definition $definition, string $id = null): string
     {
         return '';
     }
