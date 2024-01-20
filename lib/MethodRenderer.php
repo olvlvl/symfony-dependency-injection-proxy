@@ -106,9 +106,13 @@ PHPTPL;
     private function renderType(ReflectionType $type): string
     {
         if ($type instanceof ReflectionUnionType) {
-            return implode('|', array_map(function (ReflectionNamedType $namedType) {
-                return $namedType->getName();
-            }, $type->getTypes()));
+            return implode(
+                '|',
+                array_map(
+                    fn(ReflectionNamedType $namedType) => $namedType->getName(), // @phpstan-ignore-line
+                    $type->getTypes()
+                )
+            );
         }
 
         assert($type instanceof ReflectionNamedType);
