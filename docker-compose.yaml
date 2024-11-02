@@ -1,5 +1,4 @@
 ---
-version: "3.2"
 services:
   app82:
     build:
@@ -9,8 +8,8 @@ services:
     environment:
       PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
     volumes:
-    - .:/app:delegated
-    - ~/.composer:/root/.composer:delegated
+      - .:/app:delegated
+      - ~/.composer:/root/.composer:delegated
   app83:
     build:
       context: .
@@ -19,5 +18,15 @@ services:
     environment:
       PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
     volumes:
-    - .:/app:delegated
-    - ~/.composer:/root/.composer:delegated
+      - .:/app:delegated
+      - ~/.composer:/root/.composer:delegated
+  app84:
+    build:
+      context: .
+      args:
+        PHP_VERSION: "8.4.0RC3"
+    environment:
+      PHP_IDE_CONFIG: "serverName=symfony-di-proxy"
+    volumes:
+      - .:/app:delegated
+      - ~/.composer:/root/.composer:delegated

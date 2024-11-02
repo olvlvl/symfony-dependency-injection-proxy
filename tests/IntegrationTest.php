@@ -39,7 +39,7 @@ final class IntegrationTest extends TestCase
      *
      * @param Definition[] $definitions
      */
-    public function testCompilation(array $definitions, callable $assert, callable $tweakBuilder = null): void
+    public function testCompilation(array $definitions, callable $assert, ?callable $tweakBuilder = null): void
     {
         $builder = new ContainerBuilder();
         $builder->addDefinitions($definitions);

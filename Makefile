@@ -8,7 +8,7 @@ test-dependencies: vendor test-cleanup
 
 .PHONY: test
 test: test-dependencies
-	@$(PHPUNIT)
+	@$(PHPUNIT) $(ARGS)
 
 .PHONY: test-coverage
 test-coverage: test-dependencies
@@ -35,6 +35,11 @@ test-container-82:
 .PHONY: test-container-83
 test-container-83:
 	@-docker-compose run --rm app83 bash
+	@docker-compose down -v
+
+.PHONY: test-container-84
+test-container-84:
+	@-docker-compose run --rm app84 bash
 	@docker-compose down -v
 
 .PHONY: lint

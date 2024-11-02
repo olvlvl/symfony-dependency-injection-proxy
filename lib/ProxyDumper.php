@@ -34,7 +34,7 @@ final readonly class ProxyDumper implements DumperInterface
     /**
      * @inheritdoc
      */
-    public function isProxyCandidate(Definition $definition, bool &$asGhostObject = null, string $id = null): bool
+    public function isProxyCandidate(Definition $definition, ?bool &$asGhostObject = null, ?string $id = null): bool
     {
         $class = $definition->getClass();
 
@@ -76,7 +76,7 @@ PHPTPL;
     /**
      * @inheritdoc
      */
-    public function getProxyCode(Definition $definition, string $id = null): string
+    public function getProxyCode(Definition $definition, ?string $id = null): string
     {
         return '';
     }
