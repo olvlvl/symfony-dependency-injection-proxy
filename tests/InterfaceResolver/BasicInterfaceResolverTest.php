@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the olvlvl/symfony-dependency-injection-proxy package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace tests\olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 
 use ArrayIterator;
@@ -16,18 +7,19 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use LogicException;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver\BasicInterfaceResolver;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
-/**
- * @group unit
- */
+#[Group('unit')]
 final class BasicInterfaceResolverTest extends TestCase
 {
     /**
-     * @test
      * @throws Throwable
      */
+    #[Test]
     public function shouldFailIfClassImplementsManyInterfaces(): void
     {
         $stu = new BasicInterfaceResolver();
@@ -40,9 +32,9 @@ final class BasicInterfaceResolverTest extends TestCase
     }
 
     /**
-     * @test
      * @throws Throwable
      */
+    #[Test]
     public function shouldFailIfClassDoesNotExist(): void
     {
         $stu = new BasicInterfaceResolver();
@@ -55,12 +47,11 @@ final class BasicInterfaceResolverTest extends TestCase
     }
 
     /**
-     * @dataProvider provideResolveInterface
-     *
      * @param class-string $class
      *
      * @throws Throwable
      */
+    #[DataProvider('provideResolveInterface')]
     public function testResolveInterface(string $class, string $expected): void
     {
         $stu = new BasicInterfaceResolver();

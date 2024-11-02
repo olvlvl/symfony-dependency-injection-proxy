@@ -12,20 +12,18 @@
 namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 
 use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer70;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer72;
 use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterfaceForMethodRenderer80;
 
-/**
- * @group unit
- */
+#[Group('unit')]
 final class MethodRendererTest extends TestCase
 {
-    /**
-     * @dataProvider provideRender
-     */
+    #[DataProvider('provideRender')]
     public function testRender(ReflectionMethod $method, string $getterCode, string $expected): void
     {
         $stu = new MethodRenderer();

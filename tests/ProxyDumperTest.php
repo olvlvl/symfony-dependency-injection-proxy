@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the olvlvl/symfony-dependency-injection-proxy package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 
 use ArrayAccess;
@@ -18,18 +9,17 @@ use InvalidArgumentException;
 use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\InterfaceResolver;
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
 use Throwable;
 
-/**
- * @group unit
- */
+#[Group('unit')]
 final class ProxyDumperTest extends TestCase
 {
-    /**
-     * @dataProvider provideIsProxyCandidate
-     */
+    #[DataProvider('provideIsProxyCandidate')]
     public function testIsProxyCandidate(Definition $definition, bool $expected): void
     {
         $stu = new ProxyDumper(
@@ -64,9 +54,9 @@ final class ProxyDumperTest extends TestCase
     }
 
     /**
-     * @test
      * @throws Throwable
      */
+    #[Test]
     public function shouldFailIfFactoryCodeIsEmpty(): void
     {
         $stu = new ProxyDumper(
@@ -81,8 +71,8 @@ final class ProxyDumperTest extends TestCase
 
     /**
      * @throws Throwable
-     * @dataProvider provideGetProxyFactoryCode
      */
+    #[DataProvider('provideGetProxyFactoryCode')]
     public function testGetProxyFactoryCode(string $id, bool $private, bool $shared, string $expectedStore): void
     {
         $definition = (new Definition())
@@ -132,7 +122,7 @@ PHPTPL;
     }
 
     /**
-     * @see https://github.com/symfony/symfony/issues/28852
+     * @link https://github.com/symfony/symfony/issues/28852
      */
     public function testGetProxyCode(): void
     {

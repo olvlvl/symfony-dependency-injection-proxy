@@ -12,6 +12,8 @@
 namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 
 use olvlvl\SymfonyDependencyInjectionProxy\ProxyDumper;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Alias;
@@ -29,16 +31,13 @@ use tests\olvlvl\SymfonyDependencyInjectionProxy\cases\SampleInterface2;
 
 use function uniqid;
 
-/**
- * @group integration
- */
+#[Group('integration')]
 final class IntegrationTest extends TestCase
 {
     /**
-     * @dataProvider provideDefinition
-     *
      * @param Definition[] $definitions
      */
+    #[DataProvider('provideDefinition')]
     public function testCompilation(array $definitions, callable $assert, ?callable $tweakBuilder = null): void
     {
         $builder = new ContainerBuilder();

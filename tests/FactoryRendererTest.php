@@ -14,13 +14,12 @@ namespace tests\olvlvl\SymfonyDependencyInjectionProxy;
 use olvlvl\SymfonyDependencyInjectionProxy\FactoryRenderer;
 use olvlvl\SymfonyDependencyInjectionProxy\MethodRenderer;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Serializable;
 
-/**
- * @group unit
- */
+#[Group('unit')]
 final class FactoryRendererTest extends TestCase
 {
     public function testRender(): void
