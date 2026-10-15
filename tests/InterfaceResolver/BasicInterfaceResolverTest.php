@@ -38,11 +38,13 @@ final class BasicInterfaceResolverTest extends TestCase
     public function shouldFailIfClassDoesNotExist(): void
     {
         $stu = new BasicInterfaceResolver();
-        /** @phpstan-var class-string $undefinedClass */
         $undefinedClass = 'anUndefinedClass';
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage("Unable to determine the interface to implement for anUndefinedClass.");
+        $this->expectExceptionMessageIsOrContains(
+            "Unable to determine the interface to implement for anUndefinedClass."
+        );
+        // @phpstan-ignore argument.type (the class does not exist, on purpose)
         $stu->resolveInterface($undefinedClass);
     }
 

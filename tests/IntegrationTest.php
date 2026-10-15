@@ -26,7 +26,7 @@ use function uniqid;
 final class IntegrationTest extends TestCase
 {
     /**
-     * @param Definition[] $definitions
+     * @param array<string, Definition> $definitions
      */
     #[DataProvider('provideDefinition')]
     public function testCompilation(array $definitions, callable $assert, ?callable $tweakBuilder = null): void

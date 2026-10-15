@@ -101,6 +101,7 @@ PHPTPL;
      */
     private function resolveInterfaceFromTags(Definition $definition): ?string
     {
+        /** @var array<array{ interface?: class-string }> $proxy */
         $proxy = $definition->getTag('proxy');
 
         return $proxy[0]['interface'] ?? null;

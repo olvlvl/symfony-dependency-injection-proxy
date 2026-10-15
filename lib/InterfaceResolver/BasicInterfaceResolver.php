@@ -24,7 +24,7 @@ final class BasicInterfaceResolver implements InterfaceResolver
         }
 
         if (class_exists($class)) {
-            /** @var class-string[]|false $interfaces */
+            /** @var array<string, class-string>|false $interfaces */
             $interfaces = class_implements($class);
 
             if ($interfaces) {

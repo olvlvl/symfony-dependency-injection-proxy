@@ -19,6 +19,7 @@ final class FactoryRendererTest extends TestCase
         $factoryCode = 'someFactoryCode';
         $methodRenderer = $this->createMock(MethodRenderer::class);
         $methodRenderer
+            ->expects($this->atLeastOnce())
             ->method('__invoke')
             ->with(
                 Assert::isInstanceOf(ReflectionMethod::class),

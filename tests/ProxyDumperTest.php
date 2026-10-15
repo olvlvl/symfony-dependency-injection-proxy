@@ -23,8 +23,8 @@ final class ProxyDumperTest extends TestCase
     public function testIsProxyCandidate(Definition $definition, bool $expected): void
     {
         $stu = new ProxyDumper(
-            $this->createMock(InterfaceResolver::class),
-            $this->createMock(FactoryRenderer::class)
+            $this->createStub(InterfaceResolver::class),
+            $this->createStub(FactoryRenderer::class)
         );
 
         $this->assertSame($expected, $stu->isProxyCandidate($definition));
@@ -60,8 +60,8 @@ final class ProxyDumperTest extends TestCase
     public function shouldFailIfFactoryCodeIsEmpty(): void
     {
         $stu = new ProxyDumper(
-            $this->createMock(InterfaceResolver::class),
-            $this->createMock(FactoryRenderer::class)
+            $this->createStub(InterfaceResolver::class),
+            $this->createStub(FactoryRenderer::class)
         );
 
         $this->expectException(InvalidArgumentException::class);
@@ -81,11 +81,13 @@ final class ProxyDumperTest extends TestCase
             ->setShared($shared);
         $interfaceResolver = $this->createMock(InterfaceResolver::class);
         $interfaceResolver
+            ->expects($this->once())
             ->method('resolveInterface')
             ->with($class)
             ->willReturn($interface = ArrayAccess::class);
         $factoryRenderer = $this->createMock(FactoryRenderer::class);
         $factoryRenderer
+            ->expects($this->once())
             ->method('__invoke')
             ->with($interface, $factoryCode = 'someFactoryCode')
             ->willReturn($proxyFactoryCode = 'someProxyFactoryCode');
@@ -127,8 +129,8 @@ PHPTPL;
     public function testGetProxyCode(): void
     {
         $stu = new ProxyDumper(
-            $this->createMock(InterfaceResolver::class),
-            $this->createMock(FactoryRenderer::class)
+            $this->createStub(InterfaceResolver::class),
+            $this->createStub(FactoryRenderer::class)
         );
 
         $proxyCode = $stu->getProxyCode(new Definition());

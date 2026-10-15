@@ -2,7 +2,6 @@
 
 [![Release](https://img.shields.io/packagist/v/olvlvl/symfony-dependency-injection-proxy.svg)](https://packagist.org/packages/olvlvl/symfony-dependency-injection-proxy)
 [![Packagist](https://img.shields.io/packagist/dt/olvlvl/symfony-dependency-injection-proxy.svg)](https://packagist.org/packages/olvlvl/symfony-dependency-injection-proxy)
-[![Code Quality](https://img.shields.io/scrutinizer/g/olvlvl/symfony-dependency-injection-proxy.svg)](https://scrutinizer-ci.com/g/olvlvl/symfony-dependency-injection-proxy)
 [![Code Coverage](https://img.shields.io/coveralls/olvlvl/symfony-dependency-injection-proxy.svg)](https://coveralls.io/r/olvlvl/symfony-dependency-injection-proxy)
 
 This package provides a proxy generator for [Symfony's dependency injection component][1] that
@@ -140,11 +139,11 @@ ArrayObject:
 
 ## Continuous Integration
 
-The project is continuously tested by [GitHub actions](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions).
+The project is continuously tested by [GitHub Actions](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions).
 
-[![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=main)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
-[![Static Analysis](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/static-analysis/badge.svg?branch=main)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Astatic-analysis)
-[![Code Style](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/code-style/badge.svg?branch=main)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Acode-style)
+[![Tests](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/test/badge.svg?branch=8.0)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Atest)
+[![Static Analysis](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/static-analysis/badge.svg?branch=8.0)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Astatic-analysis)
+[![Code Style](https://github.com/olvlvl/symfony-dependency-injection-proxy/workflows/code-style/badge.svg?branch=8.0)](https://github.com/olvlvl/symfony-dependency-injection-proxy/actions?query=workflow%3Acode-style)
 
 
 
