@@ -17,6 +17,25 @@ implementation][2]. Here are some differences:
 If you're not familiar with proxy services, better have a look at [Symfony's documentation][3]
 before going any further.
 
+> [!IMPORTANT]
+> **This package is no longer needed on PHP 8.4+ and Symfony 7.3+.** It was created when Symfony
+> relied on `ocramius/proxy-manager` for lazy services, which generated large proxies and couldn't
+> proxy `final` classes. Symfony 6.2 moved to `symfony/var-exporter`, and Symfony 7.3 and later use
+> [PHP 8.4's native lazy objects][5], so `lazy: true` now does everything this package does, and more:
+>
+> | Case                                    | Symfony's lazy services | This package                                  |
+> |-----------------------------------------|-------------------------|-----------------------------------------------|
+> | `final` class implementing an interface | Works                   | Works                                         |
+> | Interface-typed service built by factory| Works                   | Works                                         |
+> | Class without an interface              | Works                   | Fails: unable to determine the interface      |
+> | Generated code size                     | ~3.4 KB                 | ~2.8 KB                                       |
+>
+> The output of both is self-contained, and neither needs anything extra at runtime, since PHP
+> provides the lazy-object support. Being limited to interfaces is a restriction of this package,
+> not a feature. Unless you have a specific reason, remove it and use Symfony's built-in lazy services.
+>
+> Projects on PHP below 8.4 or Symfony below 7.3 can still use an earlier version of this package.
+
 
 
 #### Installation
@@ -170,3 +189,4 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 [2]: https://github.com/olvlvl/symfony-dependency-injection-proxy/wiki/Comparison
 [3]: https://symfony.com/doc/current/service_container/lazy_services.html
 [4]: https://en.wikipedia.org/wiki/Dependency_inversion_principle
+[5]: https://www.php.net/manual/en/language.oop5.lazy-objects.php
